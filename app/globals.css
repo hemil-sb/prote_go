@@ -1,0 +1,484 @@
+@import "tailwindcss";
+
+/*
+  ProteGo Hygiene brand tokens (Brand guidelines.pdf, pp. 34–43).
+  Only the approved palette is used. Turquoise is an accent for dark
+  backgrounds; it fails contrast as text on light backgrounds.
+*/
+@theme {
+  --color-sherpa: #004a5d;
+  --color-sherpa-deep: #0d2c33;
+  --color-sherpa-tint: #bddfe7;
+  --color-orient: #00627b;
+  --color-orient-deep: #0e4a59;
+  --color-orient-tint: #cff1f9;
+  --color-turquoise: #6ae6dc;
+  --color-turquoise-deep: #2cc2b6;
+  --color-turquoise-tint: #e9fffd;
+  --color-spring: #f8f8f9;
+  --color-spring-deep: #d9d6d6;
+  --color-panel: #f2f2f2;
+  --color-ink: #000000;
+
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+
+  /* Type scale: roughly doubling steps, per "skip weights & double size" */
+  --text-display: clamp(2.75rem, 1.6rem + 4.6vw, 5.5rem);
+  --text-display--line-height: 1.02;
+  --text-display--letter-spacing: -0.035em;
+  --text-headline: clamp(2rem, 1.35rem + 2.6vw, 3.5rem);
+  --text-headline--line-height: 1.06;
+  --text-headline--letter-spacing: -0.03em;
+  --text-title: clamp(1.375rem, 1.2rem + 0.7vw, 1.75rem);
+  --text-title--line-height: 1.2;
+  --text-title--letter-spacing: -0.015em;
+  --text-lede: clamp(1.125rem, 1.05rem + 0.3vw, 1.3125rem);
+  --text-lede--line-height: 1.55;
+}
+
+:root {
+  color-scheme: light;
+  --gutter: 6vw; /* brand website grid: 6% side margins */
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
+body {
+  background: var(--color-spring);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01" 0;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Brand rule: left-aligned, rag right. Never centred or justified multi-line text. */
+p,
+li,
+dd,
+blockquote {
+  text-wrap: pretty;
+}
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+.wrap {
+  padding-inline: var(--gutter);
+  margin-inline: auto;
+  max-width: 1600px;
+}
+
+/* The brand's tilted leaf / petal shape, taken from the page-number blob and logo petals */
+.petal {
+  border-radius: 62% 38% 58% 42% / 44% 56% 44% 56%;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-orient);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+.on-dark :focus-visible {
+  outline-color: var(--color-turquoise);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Protection calendar: cells fill left to right once scrolled into view */
+.gap-chart .cal-fill {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s ease-out;
+}
+.gap-chart[data-inview="true"] .cal-fill {
+  transform: scaleX(1);
+}
+
+/* Touch test animations */
+@keyframes press {
+  0% {
+    transform: translate(-50%, -50%) scale(1.35);
+    opacity: 0;
+  }
+  30% {
+    transform: translate(-50%, -50%) scale(0.92);
+    opacity: 1;
+  }
+  70% {
+    transform: translate(-50%, -50%) scale(0.92);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.05);
+    opacity: 0;
+  }
+}
+@keyframes touch-ripple {
+  0% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.1);
+    opacity: 0;
+  }
+}
+@keyframes land {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes neutralise {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  25% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  70% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+}
+@keyframes ring {
+  0% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+/* Client logo marquee */
+.marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--marquee-duration, 45s) linear infinite;
+}
+.marquee[data-reverse] .marquee-track {
+  animation-direction: reverse;
+}
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    overflow-x: auto;
+  }
+  .marquee-track {
+    animation: none !important;
+  }
+  .marquee-dup {
+    display: none !important;
+  }
+}
+
+/* Industry explorer */
+@keyframes ind-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.ind-progress {
+  transform-origin: left;
+  animation-name: ind-progress;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+@keyframes ind-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.ind-fade {
+  animation: ind-fade 0.5s ease both;
+}
+@keyframes ind-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.ind-chip {
+  animation: ind-rise 0.45s ease both;
+}
+@media (prefers-reduced-motion: reduce) {
+  /* no auto-advance: without the animation, animationend never fires */
+  .ind-progress {
+    animation: none !important;
+    transform: scaleX(1);
+  }
+}
+
+/*
+  Brand "+" field, taken from the ProteGo packshot backgrounds.
+  Painted above the section background and below its content, fading out from one corner.
+  Usage: className="plus-field" data-fade="tr|tl|br|bl" [data-tone="dark"]
+*/
+.plus-field {
+  position: relative;
+  isolation: isolate;
+  --plus-mask: radial-gradient(ellipse 55% 75% at 100% 0%, #000 0%, transparent 72%);
+}
+.plus-field::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: url("/patterns/plus-light.svg");
+  background-size: 176px 176px;
+  opacity: 0.5;
+  -webkit-mask-image: var(--plus-mask);
+  mask-image: var(--plus-mask);
+}
+.plus-field[data-tone="dark"]::before {
+  background-image: url("/patterns/plus-dark.svg");
+  opacity: 0.32;
+}
+.plus-field[data-fade="tl"] {
+  --plus-mask: radial-gradient(ellipse 55% 75% at 0% 0%, #000 0%, transparent 72%);
+}
+.plus-field[data-fade="br"] {
+  --plus-mask: radial-gradient(ellipse 55% 75% at 100% 100%, #000 0%, transparent 72%);
+}
+.plus-field[data-fade="bl"] {
+  --plus-mask: radial-gradient(ellipse 55% 75% at 0% 100%, #000 0%, transparent 72%);
+}
+
+/* Buttons: lift on hover, press on click. Uses the individual `translate`/`scale`
+   properties so it never fights Motion's `transform` entrance animations. */
+.btn {
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    border-color 0.2s,
+    box-shadow 0.3s,
+    translate 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    scale 0.15s ease-out;
+}
+.btn:hover {
+  translate: 0 -2px;
+  box-shadow: 0 12px 24px -14px rgb(13 44 51 / 0.55);
+}
+.btn:active {
+  translate: 0 0;
+  scale: 0.97;
+}
+
+/* Lifecycle ring: dashes travel along each arc, in the direction of the cycle */
+.flow {
+  animation: flow 1.4s linear infinite;
+}
+@keyframes flow {
+  to {
+    stroke-dashoffset: -3.6;
+  }
+}
+
+/* Gentle breathing glow behind the "30" at the centre of the lifecycle ring */
+.breathe {
+  animation: breathe 3.2s ease-in-out infinite;
+}
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.35;
+    scale: 0.9;
+  }
+  50% {
+    opacity: 0.7;
+    scale: 1;
+  }
+}
+
+/* Step illustrations: small idle loops so each diagram feels alive */
+.art-mist,
+.art-tip,
+.art-spark,
+.art-ping,
+.art-bob {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.art-mist {
+  animation: art-mist 2.1s ease-in-out infinite;
+}
+@keyframes art-mist {
+  0%,
+  100% {
+    translate: 0 0;
+    opacity: 0.25;
+  }
+  50% {
+    translate: 4px 3px;
+    opacity: 0.95;
+  }
+}
+.art-tip {
+  animation: art-tip 1.8s ease-in-out infinite;
+}
+@keyframes art-tip {
+  0%,
+  70%,
+  100% {
+    scale: 1;
+  }
+  35% {
+    scale: 1.18;
+  }
+}
+.art-bob {
+  animation: art-bob 2.6s ease-in-out infinite;
+}
+@keyframes art-bob {
+  0%,
+  100% {
+    translate: 0 -3px;
+  }
+  50% {
+    translate: 0 4px;
+  }
+}
+.art-spark {
+  animation: art-spark 1.2s ease-in-out infinite;
+}
+@keyframes art-spark {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+.art-ping {
+  animation: art-ping 2.2s ease-out infinite;
+}
+@keyframes art-ping {
+  from {
+    scale: 1;
+    opacity: 0.9;
+  }
+  to {
+    scale: 1.7;
+    opacity: 0;
+  }
+}
+
+/* FAQ: answers glide open (progressive enhancement; browsers without
+   ::details-content simply snap open as before) */
+:root {
+  interpolate-size: allow-keywords;
+}
+.faq::details-content {
+  block-size: 0;
+  overflow: hidden;
+  transition:
+    block-size 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    content-visibility 0.45s allow-discrete;
+}
+.faq[open]::details-content {
+  block-size: auto;
+}
+.faq > p {
+  opacity: 0;
+  translate: 0 -6px;
+  transition:
+    opacity 0.35s ease-out 0.08s,
+    translate 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.05s;
+}
+.faq[open] > p {
+  opacity: 1;
+  translate: 0 0;
+}
+
+/* Rail: below desktop, a card grid becomes a swipeable row that bleeds to the
+   screen edge, with the next card peeking in. From lg up the grid classes apply. */
+@media (max-width: 1023.98px) {
+  .rail {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    margin-inline: calc(-1 * var(--gutter));
+    padding-inline: var(--gutter);
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+  }
+  .rail::-webkit-scrollbar {
+    display: none;
+  }
+  .rail > * {
+    flex: 0 0 min(84%, 22rem);
+    scroll-snap-align: start;
+  }
+}
+
+/* Entrance animations start some elements up to 32px off to the side. `clip`
+   (not `hidden`) keeps that from widening the page, without creating a scroll
+   container, so sticky positioning and the swipe rails keep working. */
+#main,
+footer {
+  overflow-x: clip;
+}
+
+/* Sections receive focus after an in-page link jump (CleanAnchors); no ring on the whole section */
+section[tabindex="-1"]:focus,
+main[tabindex="-1"]:focus {
+  outline: none;
+}
