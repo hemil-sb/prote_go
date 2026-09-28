@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import CleanAnchors from "@/components/CleanAnchors";
+import DesignSwitcher from "@/components/DesignSwitcher";
 
 // Manrope, the brand typeface, from the brand asset pack (variable weight 200–800)
 const manrope = localFont({
@@ -32,10 +33,11 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en-IN" className={`${manrope.variable} antialiased`}>
+    <html lang="en-IN" data-scroll-behavior="smooth" className={`${manrope.variable} antialiased`}>
       <body className="min-h-dvh">
         {children}
         <CleanAnchors />
+        <DesignSwitcher />
       </body>
     </html>
   );
