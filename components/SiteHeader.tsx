@@ -12,6 +12,7 @@ export const NAV = [
   { href: "#services", label: "Services" },
   { href: "#industries", label: "Industries" },
   { href: "#clients", label: "Clients" },
+  { href: "#about", label: "About" },
   { href: "#faq", label: "FAQ" },
 ];
 
@@ -46,15 +47,15 @@ export default function SiteHeader() {
             <Image
               src="/brand/logo-horizontal-dark.svg"
               alt="ProteGo Hygiene"
-              width={146}
-              height={52}
+              width={856}
+              height={306}
               loading="eager"
               className="h-[52px] w-auto"
             />
           </Link>
         </Item>
 
-        <Item as="nav" effect="drop" aria-label="Main" className="hidden lg:block">
+        <Item as="nav" effect="drop" aria-label="Main" className="hidden xl:block">
           <ul className="flex items-center gap-8 text-[0.9375rem] font-medium text-sherpa-deep">
             {NAV.map((item) => (
               <li key={item.href}>
@@ -69,13 +70,13 @@ export default function SiteHeader() {
         <Item effect="drop" className="flex items-center gap-3">
           <a
             href="#contact"
-            className="hidden rounded-full bg-orient px-5 py-3 text-sm font-semibold text-white btn hover:bg-sherpa sm:inline-block"
+            className="hidden rounded-full bg-orient px-5 py-3 text-sm font-semibold text-white btn hover:bg-sherpa whitespace-nowrap sm:inline-block"
           >
             Book a free assessment
           </a>
           <button
             type="button"
-            className="grid size-11 place-items-center rounded-full border border-spring-deep text-sherpa-deep lg:hidden"
+            className="grid size-11 place-items-center rounded-full border border-spring-deep text-sherpa-deep xl:hidden"
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label={open ? "Close menu" : "Open menu"}
@@ -91,7 +92,7 @@ export default function SiteHeader() {
       {/* reading progress */}
       <motion.div aria-hidden style={{ scaleX: scrollYProgress }} className="absolute inset-x-0 bottom-0 h-[2px] origin-left bg-orient" />
 
-      <nav id="mobile-nav" aria-label="Main" hidden={!open} className="border-t border-spring-deep bg-spring lg:hidden">
+      <nav id="mobile-nav" aria-label="Main" hidden={!open} className="border-t border-spring-deep bg-spring xl:hidden">
         <ul className="wrap flex flex-col py-4 text-lg font-medium text-sherpa-deep">
           {NAV.map((item) => (
             <li key={item.href}>

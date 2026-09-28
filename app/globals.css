@@ -482,3 +482,55 @@ section[tabindex="-1"]:focus,
 main[tabindex="-1"]:focus {
   outline: none;
 }
+
+/* Hero split (ProteGo side): a slow light sweep, and rings that glow in turn */
+.hero-sweep {
+  animation: hero-sweep 6s ease-in-out 1.5s infinite;
+}
+@keyframes hero-sweep {
+  0% {
+    translate: 0 0;
+  }
+  45%,
+  100% {
+    translate: 400% 0;
+  }
+}
+.hero-guard {
+  animation: hero-guard 3s ease-in-out infinite;
+}
+@keyframes hero-guard {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Hero photo settles in (CSS, so it runs before hydration and never hides the image) */
+.hero-settle {
+  animation: hero-settle 2.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes hero-settle {
+  from {
+    scale: 1.06;
+  }
+  to {
+    scale: 1;
+  }
+}
+
+/* Hero 30-day strip: each day turns turquoise in turn */
+.day-tick {
+  animation: day-tick 0.35s ease-out both;
+}
+@keyframes day-tick {
+  from {
+    background-color: rgb(255 255 255 / 0.15);
+  }
+  to {
+    background-color: var(--color-turquoise);
+  }
+}

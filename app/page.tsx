@@ -1,6 +1,5 @@
 import SiteHeader from "@/components/SiteHeader";
 import Hero from "@/components/sections/Hero";
-import Campaign from "@/components/sections/Campaign";
 import CleaningGap from "@/components/sections/CleaningGap";
 import HowItWorks from "@/components/sections/HowItWorks";
 import WhyProteGo from "@/components/sections/WhyProteGo";
@@ -9,6 +8,7 @@ import Services from "@/components/sections/Services";
 import HospitalToHome from "@/components/sections/HospitalToHome";
 import Industries from "@/components/sections/Industries";
 import Clients from "@/components/sections/Clients";
+import About from "@/components/sections/About";
 import Faq from "@/components/sections/Faq";
 import Contact from "@/components/sections/Contact";
 import SiteFooter from "@/components/sections/SiteFooter";
@@ -25,7 +25,6 @@ export default function Home() {
       <SiteHeader />
       <main id="main">
         <Hero />
-        <Campaign />
         <CleaningGap />
         <HowItWorks />
         <WhyProteGo />
@@ -34,6 +33,7 @@ export default function Home() {
         <HospitalToHome />
         <Industries />
         <Clients />
+        <About />
         <Faq />
         <Contact />
       </main>

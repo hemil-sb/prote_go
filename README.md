@@ -29,3 +29,5 @@ Brand rules followed: only the approved palette (Sherpa Blue `#004A5D`, Orient `
 - Confirm prices (₹1,049 DIY kit, from ₹2.75/sq ft) and contact details with the client.
 - Get written permission for each client logo and for the DAIS quote.
 - The contact form opens the visitor's email app (`mailto:`). Swap it for the CRM's lead endpoint once that exists.
+- The hero uses the client's campaign image `campaign-one-spray-30-days.jpg`, which is only 1366 px wide and looks soft on large screens. Ask the client for the full-resolution original.
+- `components/HeroSplit.tsx` (the lift-panel "ordinary disinfectant vs ProteGo" visual) is kept for use in a later section but is not on the page. Its photo, `public/images/hero-lift-panel.jpg`, is a stock image: a lift panel by Arisa Chattasa on Unsplash (https://unsplash.com/photos/BoQ3FmPQgZI, Unsplash License: free for commercial use, no attribution required), cropped and toned to the brand duotone. The germ marks and rings are placed by % to match its buttons.

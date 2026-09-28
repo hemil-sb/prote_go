@@ -22,6 +22,7 @@ const COLUMNS = [
   {
     title: "Company",
     links: [
+      { label: "About us", href: "#about" },
       { label: "How it works", href: "#how-it-works" },
       { label: "Industries", href: "#industries" },
       { label: "Clients", href: "#clients" },
@@ -37,7 +38,7 @@ export default function SiteFooter() {
       <div className="wrap py-16 lg:py-20">
         <Stagger gap={0.1} amount={0.2} className="grid gap-12 lg:grid-cols-12">
           <Item className="lg:col-span-3">
-            <Image src="/brand/logo-horizontal-white.svg" alt="ProteGo Hygiene" width={168} height={60} className="h-[60px] w-auto" />
+            <Image src="/brand/logo-horizontal-white.svg" alt="ProteGo Hygiene" width={856} height={307} className="h-[60px] w-auto" />
             <p className="mt-6 max-w-[22rem] leading-relaxed text-white/70">Holistic hygiene solutions.</p>
           </Item>
 

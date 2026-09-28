@@ -15,8 +15,8 @@ export default function CleaningGap() {
     <section id="cleaning-gap" aria-labelledby="gap-title" className="plus-field bg-white" data-fade="tl">
       <div className="wrap py-14 sm:py-20 lg:py-28">
         <div className="grid gap-6 text-center lg:grid-cols-12 lg:items-end lg:text-left">
-          <Words id="gap-title" text="The cleaning gap." className="text-headline font-normal text-sherpa-deep lg:col-span-5" />
-          <Reveal as="p" delay={0.2} className="mx-auto max-w-[30rem] text-lede text-ink/75 lg:col-span-6 lg:col-start-7 lg:mx-0">
+          <Words id="gap-title" text="The cleaning gap." className="text-headline font-normal text-sherpa-deep lg:col-span-7" />
+          <Reveal as="p" delay={0.2} className="mx-auto max-w-[30rem] text-lede text-ink/75 lg:col-span-5 lg:col-start-8 lg:mx-0">
             Traditional disinfectants wear off within hours. ProteGo stays active for up to 30 days.
           </Reveal>
         </div>

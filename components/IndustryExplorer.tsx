@@ -2,16 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import {
-  Building2,
-  Factory,
-  GraduationCap,
-  Hospital,
-  Plane,
-  ShieldCheck,
-  UtensilsCrossed,
-  type LucideIcon,
-} from "lucide-react";
+import { Building2, Factory, GraduationCap, Hospital, Plane, ShieldCheck, UtensilsCrossed, type LucideIcon } from "lucide-react";
 import Placeholder from "@/components/Placeholder";
 
 /*
@@ -131,10 +122,7 @@ export default function IndustryExplorer() {
   }
 
   return (
-    <div
-      ref={ref}
-      className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12"
-    >
+    <div ref={ref} className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12">
       {/* Industry list: pills on phones, a tall list on desktop */}
       <div className="min-w-0 lg:col-span-5">
         <div
@@ -155,7 +143,9 @@ export default function IndustryExplorer() {
                 aria-controls="ind-panel"
                 onClick={() => choose(i)}
                 className={`group relative flex shrink-0 snap-start items-center gap-3 rounded-full px-4 py-2.5 text-left transition-colors lg:rounded-none lg:border-b lg:border-spring-deep lg:px-0 lg:py-5 ${
-                  on ? "bg-sherpa-deep text-white lg:bg-transparent lg:text-sherpa-deep" : "bg-spring text-sherpa-deep/70 hover:text-sherpa-deep lg:bg-transparent"
+                  on
+                    ? "bg-sherpa-deep text-white lg:bg-transparent lg:text-sherpa-deep"
+                    : "bg-spring text-sherpa-deep/70 hover:text-sherpa-deep lg:bg-transparent"
                 }`}
               >
                 <Icon
@@ -164,7 +154,9 @@ export default function IndustryExplorer() {
                   strokeWidth={1.5}
                 />
                 <span className="min-w-0">
-                  <span className={`block whitespace-nowrap text-sm font-semibold lg:text-title lg:font-normal ${on ? "" : "lg:text-ink/45"}`}>
+                  <span
+                    className={`block whitespace-nowrap text-sm font-semibold lg:text-title lg:font-normal ${on ? "" : "lg:text-ink/45"}`}
+                  >
                     {ind.name}
                   </span>
                   <span className={`hidden text-sm text-ink/55 lg:block ${on ? "lg:block" : "lg:hidden"}`}>{ind.covers}</span>
@@ -188,17 +180,43 @@ export default function IndustryExplorer() {
 
       {/* Stage */}
       <div id="ind-panel" role="tabpanel" aria-labelledby={`ind-tab-${active}`} className="min-w-0 lg:col-span-7">
-        <div key={active} className="ind-fade relative">
-          <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] lg:aspect-[16/11]">
-            {current.img ? (
-              <>
-                <Image src={current.img} alt={current.alt ?? ""} fill sizes="(min-width: 1024px) 55vw, 100vw" className="object-cover" />
-                <div aria-hidden className="absolute inset-0 hidden bg-gradient-to-t from-sherpa-deep/85 via-sherpa-deep/20 to-transparent sm:block" />
-              </>
-            ) : (
-              <div className="absolute inset-0 bg-turquoise-tint">
-                <Placeholder label={current.placeholder ?? "Photo"} hint="1200 × 900 px" className="absolute inset-3 sm:pb-36" />
-              </div>
+        <div className="relative">
+          {/* All photos stay mounted and stacked, so switching is a true crossfade:
+              the new photo fades in on top, and the old one only drops out once covered. */}
+          <div className="relative isolate aspect-[4/3] overflow-hidden rounded-[2rem] bg-sherpa-deep lg:aspect-[16/11]">
+            {INDUSTRIES.map((ind, i) => {
+              const on = i === active;
+              return (
+                <div
+                  key={ind.name}
+                  aria-hidden={!on}
+                  className={`absolute inset-0 ${
+                    on
+                      ? "z-10 scale-100 opacity-100 [transition:opacity_800ms_ease-out,scale_3000ms_cubic-bezier(0.22,1,0.36,1)]"
+                      : "z-0 scale-[1.05] opacity-0 [transition:opacity_0ms_800ms,scale_0ms_800ms]"
+                  }`}
+                >
+                  {ind.img ? (
+                    <Image
+                      src={ind.img}
+                      alt={on ? (ind.alt ?? "") : ""}
+                      fill
+                      sizes="(min-width: 1024px) 55vw, 100vw"
+                      className="object-cover"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 bg-turquoise-tint">
+                      <Placeholder label={ind.placeholder ?? "Photo"} hint="1200 × 900 px" className="absolute inset-3 sm:pb-36" />
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+            {current.img && (
+              <div
+                aria-hidden
+                className="absolute inset-0 z-20 hidden bg-gradient-to-t from-sherpa-deep/85 via-sherpa-deep/20 to-transparent sm:block"
+              />
             )}
           </div>
 
@@ -208,7 +226,7 @@ export default function IndustryExplorer() {
               <ShieldCheck aria-hidden className="size-4" strokeWidth={2} />
               High-touch surfaces we protect
             </p>
-            <ul className="mt-3 flex flex-wrap gap-2">
+            <ul key={active} className="mt-3 flex flex-wrap gap-2">
               {current.hotspots.map((h, i) => (
                 <li
                   key={h}
@@ -226,7 +244,9 @@ export default function IndustryExplorer() {
         </div>
 
         <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <p className="max-w-[26rem] text-title font-normal text-sherpa-deep">{current.line}</p>
+          <p key={active} className="ind-fade max-w-[26rem] text-title font-normal text-sherpa-deep">
+            {current.line}
+          </p>
           <a
             href="#contact"
             className="shrink-0 self-start rounded-full border border-sherpa-deep/25 px-5 py-3 text-sm font-semibold text-sherpa-deep btn hover:border-sherpa-deep sm:self-auto"

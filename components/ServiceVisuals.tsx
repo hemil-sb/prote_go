@@ -45,7 +45,7 @@ function QrPattern({ size = 84 }: { size?: number }) {
 export function CertificateMock() {
   return (
     <div className="relative mx-auto w-full max-w-[380px] rotate-[-2deg] rounded-[1.5rem] border-[10px] border-sherpa-deep bg-white p-7 shadow-[0_24px_60px_-20px_rgb(13_44_51/0.45)]">
-      <Image src="/brand/logo-horizontal-dark.svg" alt="" width={120} height={43} aria-hidden className="h-9 w-auto" />
+      <Image src="/brand/logo-horizontal-dark.svg" alt="" width={856} height={306} aria-hidden className="h-9 w-auto" />
       <p className="mt-6 text-2xl font-semibold leading-tight text-sherpa-deep">
         Protected Space<span className="align-super text-xs">™</span>
       </p>
