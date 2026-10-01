@@ -32,19 +32,34 @@ function Row({ clients, duration, reverse = false }: { clients: Client[]; durati
   );
 }
 
-export default function ClientsB() {
+/* quoteOnly: the DAIS quote without the logo marquee (used on /about; the logos live on the home page). */
+export default function Clients({ quoteOnly = false }: { quoteOnly?: boolean }) {
   const half = Math.ceil(CLIENTS.length / 2);
   return (
-    <section id="clients" aria-labelledby="clients-b-title" className="on-dark plus-field bg-sherpa-deep py-16 text-white sm:py-24 lg:py-28" data-tone="dark" data-fade="tr">
-      <div className="wrap text-center lg:text-left">
-        <p className="text-sm font-semibold text-white/70">Clients</p>
-        <Words id="clients-b-title" text="Brands we work with." className="mt-3 text-headline font-normal text-turquoise" />
-      </div>
-      <div className="mt-10 space-y-3 sm:mt-14">
-        <Row clients={CLIENTS.slice(0, half)} duration={48} />
-        <Row clients={CLIENTS.slice(half)} duration={44} reverse />
-      </div>
-      <div className="wrap mt-10 sm:mt-14">
+    <section
+      id="clients"
+      aria-labelledby={quoteOnly ? undefined : "clients-title"}
+      aria-label={quoteOnly ? "What our clients say" : undefined}
+      className="on-dark plus-field bg-sherpa-deep py-16 text-white sm:py-24 lg:py-28"
+      data-tone="dark"
+      data-fade="tr"
+    >
+      {!quoteOnly && (
+        <>
+          <div className="wrap text-center lg:text-left">
+            <p className="text-sm font-semibold text-white/70">Clients</p>
+            <Words id="clients-title" text="Brands we work with." className="mt-3 text-headline font-normal text-turquoise" />
+            <Reveal as="p" delay={0.2} className="mx-auto mt-4 max-w-[34rem] text-lede text-white/80 lg:mx-0">
+              Trusted by organisations across healthcare, education, hospitality and more.
+            </Reveal>
+          </div>
+          <div className="mt-10 space-y-3 sm:mt-14">
+            <Row clients={CLIENTS.slice(0, half)} duration={48} />
+            <Row clients={CLIENTS.slice(half)} duration={44} reverse />
+          </div>
+        </>
+      )}
+      <div className={`wrap ${quoteOnly ? "" : "mt-10 sm:mt-14"}`}>
         <Reveal as="figure" className="m-0 rounded-[2rem] bg-sherpa p-8 text-center sm:p-12 lg:text-left">
           <blockquote>
             <p className="mx-auto max-w-[34ch] text-[clamp(1.5rem,1.1rem+1.6vw,2.5rem)] font-light leading-[1.25] tracking-[-0.02em] text-white lg:mx-0">

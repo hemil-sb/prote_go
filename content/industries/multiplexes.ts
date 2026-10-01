@@ -12,7 +12,7 @@ export const industry: Industry = {
     alt: "Rows of empty seats in a softly lit cinema auditorium",
   },
   headline: "Every touchpoint shapes the guest experience.",
-  lede: "Moviegoers expect a clean, comfortable space that reflects the quality of your brand. ProteGo adds long-lasting protection to the surfaces guests touch most, from ticketing to the final credits.",
+  lede: "Moviegoers expect a clean, comfortable space that reflects the quality of your brand. ProteGo adds up to 30 days of protection per application to the surfaces guests touch most, from ticketing to the final credits.",
   challenge: {
     title: "Focus on what guests touch most.",
     intro:
@@ -87,20 +87,8 @@ export const industry: Industry = {
   ],
   approach: [
     {
-      title: "Assess and prepare",
-      body: "We map high-touch zones with your team. Surfaces are pre-cleaned before treatment, as part of your normal routine.",
-    },
-    {
-      title: "Professional application",
-      body: "Trained technicians apply ProteGo with ULV equipment, planned around show timings. It forms an invisible, bonded Si-QAC layer that disrupts microbes on contact.",
-    },
-    {
-      title: "Verify with ATP testing",
-      body: "Readings are taken before application and again during the cycle, then shared in a digital report.",
-    },
-    {
-      title: "Start with a pilot",
-      body: "A focused 30-day pilot in one or two auditoria or public zones lets you review the results before any wider rollout.",
+      title: "Planned around your shows",
+      body: "We map high-touch zones with your team and plan each application around show timings. Surfaces are pre-cleaned beforehand, as part of your normal routine.",
     },
   ],
   benefits: [
@@ -114,22 +102,18 @@ export const industry: Industry = {
     },
     {
       who: "Frontline and housekeeping teams",
-      body: "One scheduled application every 30 days that works alongside their existing cleaning.",
+      body: "One scheduled application a month that works alongside their existing cleaning.",
     },
   ],
   line: "Measure. Verify. Then scale.",
   faqs: [
     {
       q: "Will application interrupt our shows?",
-      a: "No. Applications are planned around show timings, usually outside operating hours. Surfaces need about 1 hour to dry.",
+      a: "No. Applications usually take place outside operating hours, and surfaces need about 1 hour to dry.",
     },
     {
       q: "Can it go on cup holders or food counters?",
       a: "No. ProteGo is for hard, non-food-contact, high-touch surfaces, so we leave out cup holders, tray tables and food-serving surfaces.",
-    },
-    {
-      q: "Has the product been tested?",
-      a: "Yes. Its efficacy has been tested by an NABL-accredited laboratory. On site, we verify each application with before-and-after ATP readings, which measure organic residue in Relative Light Units (RLU).",
     },
   ],
   contactSector: "Retail, multiplex or gym",

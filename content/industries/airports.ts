@@ -16,15 +16,11 @@ export const industry: Industry = {
   challenge: {
     title: "Every touchpoint, every terminal.",
     intro:
-      "Airports never really close. Cleaning teams work hard, but a surface that has just been cleaned is open to the next touch as soon as it dries.",
+      "Cleaning teams work hard, but a surface that has just been cleaned is open to the next touch as soon as it dries. In a terminal, that next touch is never far away.",
     points: [
       {
         title: "Shared by thousands",
         body: "Security trays, gate seating and kiosk screens pass from hand to hand throughout the day.",
-      },
-      {
-        title: "Continuous contact",
-        body: "Handrails, lift buttons and trolley handles are touched along the whole passenger journey.",
       },
       {
         title: "Tight maintenance windows",
@@ -84,27 +80,11 @@ export const industry: Industry = {
   ],
   approach: [
     {
-      title: "Map the high-touch surfaces",
-      body: "We start with a site assessment and map the surfaces passengers touch most, zone by zone.",
-    },
-    {
-      title: "Apply during maintenance windows",
-      body: "Trained technicians apply ProteGo Surface Protectant with ULV equipment during planned windows. Treated surfaces need about 1 hour to dry.",
-    },
-    {
-      title: "A bonded, invisible layer",
-      body: "Si-QAC technology forms a layer that bonds to hard, non-food-contact surfaces and disrupts microbes on contact, for up to 30 days under normal conditions.",
-    },
-    {
-      title: "Verify and report",
-      body: "Before-and-after ATP testing and a digital report show how surface cleanliness changes over the cycle.",
+      title: "Applied during maintenance windows",
+      body: "Treatment is scheduled into your planned maintenance windows, zone by zone. Treated surfaces need about 1 hour to dry.",
     },
   ],
   benefits: [
-    {
-      who: "Terminal operations",
-      body: "A monthly protection routine that fits planned maintenance, with data to review at the end of each cycle.",
-    },
     {
       who: "Housekeeping teams",
       body: "Support for existing cleaning schedules, not another task added to them.",
@@ -118,23 +98,11 @@ export const industry: Industry = {
       body: "A calm, visible commitment to hygiene in the spaces your guests choose to spend time in.",
     },
   ],
-  line: "Every touchpoint. Every terminal. Every day.",
+  line: "Every surface. Every day.",
   faqs: [
-    {
-      q: "Does ProteGo replace our cleaning contract?",
-      a: "No. ProteGo complements, not replaces, routine cleaning. Your teams keep their schedules; the protective layer works between cleans.",
-    },
-    {
-      q: "Can we start small?",
-      a: "Yes. Start with one terminal or zone, measure the results with ATP testing, then decide whether to extend.",
-    },
     {
       q: "Is it suitable for seat fabric or carpets?",
       a: "ProteGo is for hard, non-food-contact, high-touch surfaces. Suitability, including in washrooms, is confirmed during the site assessment.",
-    },
-    {
-      q: "How is it tested?",
-      a: "Efficacy has been tested by an NABL-accredited laboratory. On site, we use ATP testing, which measures organic residue in Relative Light Units (RLU) rather than counting microbes.",
     },
   ],
   contactSector: "Transport or government",

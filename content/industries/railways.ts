@@ -19,10 +19,6 @@ export const industry: Industry = {
       "Routine cleaning removes visible dirt, but a surface is open to the next touch as soon as it dries. On a busy platform or coach, that next touch comes quickly.",
     points: [
       {
-        title: "Heavy, continuous use",
-        body: "Washrooms at stations and on trains are used by a steady stream of passengers between every scheduled clean.",
-      },
-      {
         title: "Hands on the same surfaces",
         body: "Grab rails, door handles, taps and flush buttons are touched by almost everyone who passes through.",
       },
@@ -86,26 +82,14 @@ export const industry: Industry = {
   ],
   approach: [
     {
-      title: "Assess and select surfaces",
-      body: "We assess the site with your team and agree which hard, non-food-contact, high-touch surfaces are suitable for treatment.",
-    },
-    {
-      title: "Professional ULV application",
-      body: "Trained technicians apply ProteGo Surface Protectant with calibrated ULV equipment. Treated surfaces need about 1 hour to dry.",
-    },
-    {
-      title: "An invisible bonded layer",
-      body: "Si-QAC technology forms a layer that bonds to the surface and disrupts microbes on contact, for up to 30 days under normal conditions.",
-    },
-    {
-      title: "ATP baseline, verification and review",
-      body: "ATP readings before and after treatment, a digital report and a review near the end of the cycle give you evidence to decide on wider use.",
+      title: "Proposals for stations, depots and networks",
+      body: "Large stations, coach depots and multi-site projects get a custom commercial proposal, scoped with your team.",
     },
   ],
   benefits: [
     {
       who: "Station and depot managers",
-      body: "A structured routine with ATP data and digital reports for each treated location.",
+      body: "Consistent ATP data and reports for each treated location, comparable from one site to the next.",
     },
     {
       who: "Housekeeping teams",
@@ -118,18 +102,6 @@ export const industry: Industry = {
   ],
   line: "Every station. Every journey. Every day.",
   faqs: [
-    {
-      q: "Can we start with a single station?",
-      a: "Yes. A pilot covers site assessment, application, ATP baseline and verification, a digital report and a performance review, so you can evaluate before going further.",
-    },
-    {
-      q: "Does it replace scheduled cleaning?",
-      a: "No. ProteGo complements, not replaces, routine cleaning. It works on treated surfaces between your scheduled cleaning cycles.",
-    },
-    {
-      q: "Which surfaces is it for?",
-      a: "Hard, non-food-contact, high-touch surfaces only. It is not for surfaces in direct contact with food.",
-    },
     {
       q: "What about smaller offices and support areas?",
       a: "For smaller spaces, the 500 ml DIY Protection Kit covers about 750 sq ft and can be applied by your own team where suitable.",

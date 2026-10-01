@@ -1,13 +1,14 @@
 import * as THREE from "three";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
-import { COLORS, displayTexture, plasterTexture } from "../textures";
-import type { ObjectContext, SceneObject } from "../types";
+import { COLORS, claddingTextures, displayTexture } from "../textures";
+import type { Layout, ObjectContext, SceneObject } from "../types";
 
 /*
   The real space around the panel: a lift lobby at night ("protection that doesn't sleep").
-  Plastered teal wall, slatted panelling to the right, brushed-steel lift doors in a steel
-  frame to the left with a floor indicator above, a polished stone floor, and downlights
-  throwing pools of light onto the wall.
+  Teal micro-cement cladding in large panels with shadow-gap joints, slatted panelling to the
+  right, brushed-steel lift doors in a steel frame to the left with a floor indicator above,
+  a steel crash rail along the wall, a polished stone floor, and downlights throwing pools of
+  light onto the wall.
 
   World units follow the panel (3.3 units ≈ a 40 cm call panel, so ~8 units ≈ 1 m).
 */
@@ -18,6 +19,13 @@ const WALL_Z = -0.14;
 const DOOR_L = -13;
 const DOOR_R = -3.2;
 const DOOR_TOP = 8.7;
+// cladding: 600 × 1200 mm panels, laid so no joint crosses the call panel (which spans x ±0.8, y ±1.6)
+const TILE_W = 4.8;
+const TILE_H = 9.6;
+const TILE_X0 = 2.8; // a vertical joint here and at -2.0: perspective lines either side of the panel
+const TILE_Y0 = -2.9; // a horizontal joint just under the rail
+// crash rail: about 85 cm up the wall
+const RAIL_Y = -2.3;
 
 export type Lobby = SceneObject;
 
@@ -33,14 +41,33 @@ export function createLobby(ctx: ObjectContext): Lobby {
     return m;
   };
 
-  // wall
-  const plaster = keep(plasterTexture());
-  plaster.repeat.set(7, 2);
-  const wallMat = keep(new THREE.MeshStandardMaterial({ color: "#22535c", map: plaster, roughness: 0.9, metalness: 0 }));
-  // three pieces, leaving an opening for the lift doors
+  // wall: cladding with a normal map; UVs are in world units so the tile grid runs continuously
+  // across the three pieces around the door opening
+  const { map, normalMap } = claddingTextures(high ? 512 : 256);
+  keep(map);
+  keep(normalMap);
+  const wallMat = keep(
+    new THREE.MeshStandardMaterial({
+      color: "#18555f",
+      map,
+      normalMap,
+      normalScale: new THREE.Vector2(0.35, 0.35),
+      roughness: 0.78,
+      metalness: 0,
+    }),
+  );
   const wallPiece = (x0: number, x1: number, y0: number, y1: number) => {
-    const w = new THREE.Mesh(keep(new THREE.PlaneGeometry(x1 - x0, y1 - y0)), wallMat);
-    w.position.set((x0 + x1) / 2, (y0 + y1) / 2, WALL_Z);
+    const geo = keep(new THREE.PlaneGeometry(x1 - x0, y1 - y0));
+    const cx = (x0 + x1) / 2;
+    const cy = (y0 + y1) / 2;
+    const pos = geo.attributes.position;
+    const uv = geo.attributes.uv;
+    for (let i = 0; i < uv.count; i++) {
+      uv.setXY(i, (pos.getX(i) + cx - TILE_X0) / TILE_W, (pos.getY(i) + cy - TILE_Y0) / TILE_H);
+    }
+    uv.needsUpdate = true;
+    const w = new THREE.Mesh(geo, wallMat);
+    w.position.set(cx, cy, WALL_Z);
     group.add(w);
   };
   wallPiece(-45, DOOR_L - 0.6, FLOOR_Y, CEIL_Y);
@@ -59,9 +86,10 @@ export function createLobby(ctx: ObjectContext): Lobby {
   }
   group.add(slatMesh);
 
-  // lift doors in a steel frame, to the left of the panel
-  const steel = keep(new THREE.MeshPhysicalMaterial({ color: "#a9bec3", metalness: 1, roughness: 0.3, anisotropy: 0.8, clearcoat: 0.2 }));
-  const frameMat = keep(new THREE.MeshStandardMaterial({ color: "#8ea6ab", metalness: 1, roughness: 0.22 }));
+  // lift doors in a steel frame, to the left of the panel: a little darker and warmer than
+  // the call panel's plate, so the door edge reads as its own material in the close shots
+  const steel = keep(new THREE.MeshPhysicalMaterial({ color: "#9cb0b5", metalness: 1, roughness: 0.36, anisotropy: 0.85, clearcoat: 0.2 }));
+  const frameMat = keep(new THREE.MeshStandardMaterial({ color: "#84979c", metalness: 1, roughness: 0.26 }));
   const doorH = DOOR_TOP - FLOOR_Y;
   const doorW = DOOR_R - DOOR_L;
   box(0.6, doorH + 0.6, 0.5, frameMat, DOOR_L - 0.3, FLOOR_Y + (doorH + 0.6) / 2, WALL_Z + 0.2);
@@ -92,6 +120,11 @@ export function createLobby(ctx: ObjectContext): Lobby {
   indFrame.position.set((DOOR_L + DOOR_R) / 2, DOOR_TOP + 1.75, WALL_Z + 0.01);
   group.add(indFrame, indicator);
 
+  // crash rail: brushed steel, either side of the doors, stopping before the slats
+  const railMat = keep(new THREE.MeshStandardMaterial({ color: "#a3b4b8", metalness: 1, roughness: 0.3 }));
+  const rail = (x0: number, x1: number) => box(x1 - x0, 0.36, 0.28, railMat, (x0 + x1) / 2, RAIL_Y, WALL_Z + 0.33);
+  const rails = [rail(DOOR_R + 0.9, 3.9), rail(-45, DOOR_L - 0.9)];
+
   // floor: polished dark stone; skirting; ceiling
   const floor = new THREE.Mesh(
     keep(new THREE.PlaneGeometry(90, 70)),
@@ -109,7 +142,8 @@ export function createLobby(ctx: ObjectContext): Lobby {
   ceiling.position.set(0, CEIL_Y, WALL_Z + 35);
   group.add(ceiling);
 
-  // downlights: a glowing disc on the ceiling and a soft spot washing the wall below it
+  // downlights: a glowing disc on the ceiling and a soft spot washing the wall below it.
+  // The one above the call panel is always there; it is what gives the close shots their sheen.
   const discMat = keep(new THREE.MeshBasicMaterial({ color: "#fff6ea", toneMapped: false }));
   const discGeo = keep(new THREE.CircleGeometry(0.45, 32));
   const spots = high ? [(DOOR_L + DOOR_R) / 2, 0.4, 11] : [(DOOR_L + DOOR_R) / 2, 0.4];
@@ -127,6 +161,11 @@ export function createLobby(ctx: ObjectContext): Lobby {
   return {
     group,
     update() {},
+    // phones frame the panel in the top half of the screen with the chapter text below; the rail
+    // would run as a bright band straight behind that text, so it only shows in the other layouts
+    setLayout(layout: Layout) {
+      rails.forEach((r) => (r.visible = layout !== "top"));
+    },
     dispose() {
       slatMesh.dispose();
       disposables.forEach((d) => d.dispose());

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import ExploreLink from "@/components/site/ExploreLink";
 import { Accessibility, Bath, BedDouble, DoorOpen, Smartphone, Tv } from "lucide-react";
 import { Item, Reveal, Stagger, Words } from "@/components/Motion";
 
@@ -12,9 +13,9 @@ const TOUCHPOINTS = [
   { icon: Accessibility, label: "Walking aids" },
 ];
 
-export default function HospitalToHomeB() {
+export default function HospitalToHome() {
   return (
-    <section id="hospital-to-home" aria-labelledby="h2h-b-title" className="plus-field bg-white py-16 sm:py-24 lg:py-28" data-fade="tr">
+    <section id="hospital-to-home" aria-labelledby="h2h-title" className="plus-field bg-white py-16 sm:py-24 lg:py-28" data-fade="tr">
       <div className="wrap">
         <Reveal className="grid overflow-hidden rounded-[2rem] bg-turquoise-tint lg:grid-cols-2">
           <div className="relative min-h-[260px] sm:min-h-[340px]">
@@ -28,7 +29,7 @@ export default function HospitalToHomeB() {
           </div>
           <div className="flex flex-col justify-center p-8 text-center sm:p-12 lg:text-left">
             <p className="text-sm font-semibold text-orient">Hospital to Home™</p>
-            <Words id="h2h-b-title" text="Recovery deserves a safer home." className="mt-3 text-headline font-normal text-sherpa-deep" />
+            <Words id="h2h-title" text="Recovery deserves a safer home." className="mt-3 text-headline font-normal text-sherpa-deep" />
             <p className="mx-auto mt-4 max-w-[30rem] text-lede text-ink/70 lg:mx-0">
               We protect the surfaces a recovering patient touches most, before they come home.
             </p>
@@ -40,12 +41,9 @@ export default function HospitalToHomeB() {
                 </Item>
               ))}
             </Stagger>
-            <a
-              href="#contact"
-              className="btn mt-8 self-center rounded-full bg-sherpa-deep px-6 py-3.5 font-semibold text-white hover:bg-sherpa lg:self-start"
-            >
-              Talk to us about a home visit
-            </a>
+            <ExploreLink href="/hospital-to-home" className="mt-8 self-center lg:self-start">
+              Discover Hospital to Home&trade;
+            </ExploreLink>
           </div>
         </Reveal>
       </div>

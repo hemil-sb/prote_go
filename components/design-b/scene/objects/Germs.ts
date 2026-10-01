@@ -5,30 +5,30 @@ import { BUTTONS, FACE_Z } from "./LiftPanel";
 import type { ObjectContext, SceneObject } from "../types";
 
 /*
-  Germs, drawn as friendly textbook microbes (a rod bacterium ringed with short hairs, and a
-  round one with spikes) on sprites that always face the camera. Calm on purpose: never red or green.
+  Germs: soft translucent microbes (a capsule, a coccus and a two-cell cluster) on sprites that
+  always face the camera, with a contact shadow baked in. Calm on purpose: never red or green.
   - chapter 2 "ordinary": after each touch, germs settle beside the button; cleared in "apply";
   - chapter 5 "protect": germs drift in one after another and break apart on contact with
     the bonded layer, scattering into small turquoise sparks.
 */
 
-const PER_TOUCH = 2;
+const PER_TOUCH = 3;
 const INCOMING = 8;
 const SPARKS_PER = 14;
 const APPROACH = 0.09; // share of "protect" a germ takes to reach the surface
 const BURST = 0.07; // share of "protect" its sparks live
-const SIZE = 0.4;
+const SIZE = 0.5;
 
 export function createGerms(ctx: ObjectContext): SceneObject {
   const group = new THREE.Group();
   const rand = seeded(5);
-  const textures = [germTexture("rod"), germTexture("round")];
+  const textures = [germTexture("rod"), germTexture("round"), germTexture("pair")];
   let made = 0;
   const materials: THREE.SpriteMaterial[] = [];
 
   const sprite = () => {
     const mat = new THREE.SpriteMaterial({
-      map: textures[made++ % 2],
+      map: textures[made++ % 3],
       transparent: true,
       depthWrite: false,
       rotation: rand() * Math.PI * 2,
@@ -49,7 +49,7 @@ export function createGerms(ctx: ObjectContext): SceneObject {
       const r = 0.46 + rand() * 0.08;
       const s = sprite();
       s.position.set(bx + Math.cos(a) * r, by + Math.sin(a) * r, FACE_Z + 0.09);
-      return { s, at: t.at + 0.05 + k * 0.05, rot: s.material.rotation, phase: rand() * 6 };
+      return { s, at: t.at + 0.05 + k * 0.05, rot: s.material.rotation, phase: rand() * 6, size: SIZE * (0.75 + rand() * 0.5) };
     }),
   );
 
@@ -63,7 +63,7 @@ export function createGerms(ctx: ObjectContext): SceneObject {
       const t = rand() * Math.PI * 2;
       return new THREE.Vector3(Math.cos(t), Math.sin(t), rand() * 0.5);
     });
-    return { s, from, to, start: 0.04 + i * 0.11, dirs, phase: rand() * 6 };
+    return { s, from, to, start: 0.04 + i * 0.11, dirs, phase: rand() * 6, size: SIZE * (0.8 + rand() * 0.45) };
   });
 
   // sparks: one Points layer; colour doubles as brightness under additive blending
@@ -95,7 +95,7 @@ export function createGerms(ctx: ObjectContext): SceneObject {
       settled.forEach((g) => {
         const k = smooth((o - g.at) / 0.08) * clear;
         g.s.visible = k > 0.001;
-        g.s.scale.set(SIZE * k, SIZE * k, 1);
+        g.s.scale.set(g.size * k, g.size * k, 1);
         g.s.material.rotation = g.rot + Math.sin(time * 0.9 + g.phase) * 0.2;
       });
 
@@ -108,7 +108,7 @@ export function createGerms(ctx: ObjectContext): SceneObject {
           const e = easeOut(a);
           g.s.position.set(lerp(g.from.x, g.to.x, e), lerp(g.from.y, g.to.y, e), lerp(g.from.z, g.to.z, e));
           g.s.material.rotation = time * 0.6 + g.phase;
-          const pulse = SIZE * (1 + 0.06 * Math.sin(time * 3 + g.phase));
+          const pulse = g.size * (1 + 0.06 * Math.sin(time * 3 + g.phase));
           g.s.scale.set(pulse, pulse, 1);
         }
         const b = (pl - g.start - APPROACH) / BURST;

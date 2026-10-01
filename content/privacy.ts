@@ -1,7 +1,7 @@
 // Privacy policy draft for this website. Not legal advice: the page is labelled
 // "Draft pending legal review" in the UI. Describes what the site actually does:
 // mailto forms, a cart kept in the browser (localStorage), email order requests,
-// no online payments and no analytics or tracking cookies.
+// no online payments and no analytics or tracking cookies. The contact page embeds a Google Map.
 
 export type PrivacyContent = {
   updated: string;
@@ -18,7 +18,7 @@ export const PRIVACY: PrivacyContent = {
     {
       title: "Who we are.",
       body: [
-        "This website is run by ProteGo Hygiene Pvt. Ltd., K-104, Tower 6, International Infotech Park, Vashi, Navi Mumbai 400 705, India. In this policy, \"we\" and \"us\" mean ProteGo Hygiene Pvt. Ltd.",
+        'This website is run by ProteGo Hygiene Pvt. Ltd., K-104, Tower 6, International Infotech Park, Vashi, Navi Mumbai 400 705, India. In this policy, "we" and "us" mean ProteGo Hygiene Pvt. Ltd.',
         "For any question about this policy or your information, write to sales@protegohygiene.com.",
       ],
     },
@@ -26,6 +26,7 @@ export const PRIVACY: PrivacyContent = {
       title: "What this website collects.",
       body: [
         "You can browse this website without creating an account or telling us who you are. We do not run analytics, advertising or tracking cookies, and we do not build profiles of visitors.",
+        "Our contact page shows an embedded Google Map of our office. When that map loads, Google may receive your IP address and set its own cookies, under Google's privacy policy. The rest of the site loads nothing from Google.",
         "Like most websites, the service that hosts this site may automatically record basic technical details when a page is requested, such as your IP address, browser type and the time of the request. These records are kept to keep the site secure and working, not to identify or follow individual visitors.",
       ],
     },
@@ -64,7 +65,7 @@ export const PRIVACY: PrivacyContent = {
       title: "Your rights.",
       body: [
         "Under India's Digital Personal Data Protection Act, 2023, you can ask us for a summary of the personal information we hold about you and how we use it, ask us to correct, complete or update it, and ask us to erase it where we no longer need to keep it. Where we rely on your consent, you can withdraw it at any time.",
-        "To make a request or raise a concern, email sales@protegohygiene.com with \"Privacy request\" in the subject line. We may need to confirm your identity before acting on a request, and we will reply as soon as we reasonably can.",
+        'To make a request or raise a concern, email sales@protegohygiene.com with "Privacy request" in the subject line. We may need to confirm your identity before acting on a request, and we will reply as soon as we reasonably can.',
         "If you are not satisfied with our response, you can contact the Data Protection Board of India.",
       ],
     },

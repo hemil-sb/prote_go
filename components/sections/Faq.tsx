@@ -1,16 +1,31 @@
 import { FAQS } from "@/content/faqs";
 import { Item, Stagger, Words } from "@/components/Motion";
 
-export default function FaqB() {
+type QA = { q: string; a: string };
+
+export default function Faq({
+  items = FAQS,
+  id = "faq",
+  tone = "spring",
+}: {
+  items?: QA[];
+  id?: string;
+  tone?: "spring" | "white";
+}) {
   return (
-    <section id="faq" aria-labelledby="faq-b-title" className="plus-field bg-spring py-16 sm:py-24 lg:py-28" data-fade="bl">
+    <section
+      id={id}
+      aria-labelledby={`${id}-title`}
+      className={`plus-field py-16 sm:py-24 lg:py-28 ${tone === "white" ? "bg-white" : "bg-spring"}`}
+      data-fade="bl"
+    >
       <div className="wrap grid gap-8 lg:grid-cols-12 lg:gap-12">
         <div className="text-center lg:col-span-4 lg:text-left">
-          <Words id="faq-b-title" text="FAQ" className="text-headline font-normal text-sherpa-deep" />
+          <Words id={`${id}-title`} text="FAQ" className="text-headline font-normal text-sherpa-deep" />
         </div>
         <Stagger gap={0.08} className="space-y-3 lg:col-span-8">
-          {FAQS.map((f) => (
-            <Item key={f.q} className="rounded-[1.5rem] bg-white px-6 ring-1 ring-spring-deep">
+          {items.map((f) => (
+            <Item key={f.q} className={`rounded-[1.5rem] px-6 ring-1 ring-spring-deep ${tone === "white" ? "bg-spring" : "bg-white"}`}>
               <details className="faq group">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-base font-semibold text-sherpa-deep transition-colors hover:text-orient sm:text-lg [&::-webkit-details-marker]:hidden">
                   {f.q}

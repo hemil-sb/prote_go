@@ -15,15 +15,11 @@ export const industry: Industry = {
   challenge: {
     title: "Food safety doesn't end in the kitchen.",
     intro:
-      "Food businesses already follow documented hygiene practices. But the surfaces customers and staff share are touched constantly, and a fresh clean lasts only until the next touch.",
+      "Food businesses already follow documented hygiene practices. But on a shared surface, a fresh clean lasts only until the next touch.",
     points: [
       {
         title: "A busy customer journey.",
         body: "Arrival, ordering counter, kiosk, payment, table, washroom and exit: each step adds shared surfaces.",
-      },
-      {
-        title: "Disinfectants stop when they dry.",
-        body: "Wiping protects a surface only briefly, so the same touchpoints need attention again and again.",
       },
       {
         title: "Documentation is expected.",
@@ -59,30 +55,14 @@ export const industry: Industry = {
   ],
   approach: [
     {
-      title: "Assess and protect.",
-      body: "We map your high-touch surfaces, then apply ProteGo by ULV after cleaning, when the outlet is empty. It dries in about an hour.",
-    },
-    {
-      title: "Verify with ATP.",
-      body: "Before-and-after ATP tests measure organic residue in Relative Light Units (RLU), giving you objective data on surface cleanliness.",
-    },
-    {
-      title: "Report and renew.",
-      body: "Each visit ends with a digital report you can add to your GHP and FSMS records. Protection is renewed every 30 days.",
-    },
-    {
-      title: "Start with one outlet.",
-      body: "Choose the DIY Protection Kit for a single café, or a managed programme with branch-wise reports for chains and cloud-kitchen networks.",
+      title: "One café or a whole network.",
+      body: "Choose the DIY Protection Kit for a single café, or a managed programme for chains and cloud-kitchen networks.",
     },
   ],
   benefits: [
     {
       who: "Customers",
       body: "Protected surfaces at the counter, kiosk and table, and visible care they can notice.",
-    },
-    {
-      who: "Kitchen and floor teams",
-      body: "Protection between cleans that complements, not replaces, your cleaning and food safety routines.",
     },
     {
       who: "Owners and outlet managers",
@@ -98,10 +78,6 @@ export const industry: Industry = {
     {
       q: "Is ProteGo safe to use near food?",
       a: "It is designed only for hard, non-food-contact surfaces. Never apply it to food, ingredients, utensils, cookware or any surface that comes into direct contact with food.",
-    },
-    {
-      q: "Does it replace our cleaning or sanitising?",
-      a: "No. Clean as usual and follow your food safety protocols. ProteGo keeps working on treated surfaces in between.",
     },
     {
       q: "How does it fit with FSSAI requirements?",

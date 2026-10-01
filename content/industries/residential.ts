@@ -82,25 +82,17 @@ export const industry: Industry = {
   approach: [
     {
       title: "Managed protection for societies",
-      body: "For housing societies and apartment buildings, our trained team applies ProteGo Surface Protectant to common areas with ULV equipment, then verifies with before-and-after ATP testing and a digital report.",
+      body: "For housing societies and apartment buildings, our trained team treats the common areas as a managed service.",
     },
     {
       title: "The DIY Protection Kit for homes",
       body: "A ready-to-use 500 ml spray that covers about 750 sq ft. Apply it to clean, dry, hard surfaces and allow about 1 hour to dry.",
     },
-    {
-      title: "Hospital to Home™",
-      body: "For families bringing someone home from hospital, our Hospital to Home™ programme supports a cleaner recovery environment on treated surfaces.",
-    },
-    {
-      title: "An invisible bonded layer",
-      body: "Si-QAC technology forms a layer that bonds to the surface and disrupts microbes on contact, for up to 30 days under normal conditions.",
-    },
   ],
   benefits: [
     {
       who: "Residents' associations and managing committees",
-      body: "A clear monthly routine for common areas, with reports you can share with members.",
+      body: "Reports you can share with members, so everyone can see what has been done.",
     },
     {
       who: "Property and facility managers",
@@ -114,16 +106,8 @@ export const industry: Industry = {
   line: "Protection for the space you call home.",
   faqs: [
     {
-      q: "Do we still need to clean as usual?",
-      a: "Yes. ProteGo complements, not replaces, routine cleaning. Keep your usual routine; the protective layer keeps working in between.",
-    },
-    {
       q: "Which surfaces can I treat at home?",
       a: "Hard, non-food-contact, high-touch surfaces such as door handles, switches and bathroom fittings. Do not use it on food-contact surfaces, utensils or kitchen worktops where food is prepared.",
-    },
-    {
-      q: "How long does the DIY kit last?",
-      a: "One 500 ml bottle covers about 750 sq ft per application, and each application protects treated surfaces for up to 30 days under normal conditions.",
     },
     {
       q: "Someone in our family is coming home from hospital. Can you help?",

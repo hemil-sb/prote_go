@@ -32,7 +32,10 @@ export default function CtaBand({
               {primary.label}
             </Link>
             {secondary && (
-              <Link href={secondary.href} className="btn rounded-full px-7 py-4 font-semibold text-white ring-1 ring-white/35 hover:bg-white/10">
+              <Link
+                href={secondary.href}
+                className="btn rounded-full px-7 py-4 font-semibold text-white ring-1 ring-white/35 hover:bg-white/10"
+              >
                 {secondary.label}
               </Link>
             )}

@@ -13,10 +13,12 @@ npm run build && npm run start
 | Path | What |
 |---|---|
 | `app/globals.css` | Brand tokens (palette, type scale, petal shape, animations) from the brand guidelines |
-| `app/layout.tsx` | Manrope (local, from the brand asset pack), metadata |
+| `app/layout.tsx` | Manrope (local woff2 subset, 24 KB; rebuild with `scripts/subset-font.py`), metadata |
 | `app/icon.svg`, `app/favicon.ico`, `app/apple-icon.png` | Favicons made from the brand icon |
 | `app/page.tsx` | Section order |
 | `components/TouchTest.tsx` | Interactive "touch test": ordinary disinfectant vs ProteGo between cleans |
+| `components/design-b/` | The home hero: sticky scroll story, poster-first loading, Three.js scene loaded when idle (spec in `docs/specs/`) |
+| `scripts/` | `subset-font.py` (font subset), `capture-posters.mjs` (hero posters from the live scene) |
 | `components/Motion.tsx` | Entrance animations (Motion): `Reveal`, `Stagger` + `Item`, `Words` headline reveal. Opacity + `transform` only, one ease-out, no overshoot; reduced motion keeps only the fade |
 | `components/sections/*` | Hero, cleaning gap, how it works, why ProteGo, products, services, industries, clients, FAQ, contact, footer |
 | `public/brand/` | Official logo SVGs (horizontal lockup and icon, in dark, turquoise and white) |

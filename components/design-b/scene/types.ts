@@ -8,6 +8,8 @@ export type Layout = "side" | "top" | "center";
 export interface SceneObject {
   group: THREE.Object3D;
   update(p: number, time: number): void;
+  /** optional: react to the frame layout (phones frame the panel in the top half) */
+  setLayout?(layout: Layout): void;
   dispose(): void;
 }
 

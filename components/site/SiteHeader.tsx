@@ -11,9 +11,13 @@ import { useCart } from "@/components/cart/CartProvider";
 
 /*
   Every page opens on a dark hero (the 3D story on the home page, a PageHero elsewhere),
-  marked with data-hero. The header is transparent with the white logo over it, and turns
-  into a light bar with the dark logo once the hero has scrolled away. Pages without a dark
-  hero (cart, checkout) get the light bar straight away. The menu is a full-screen sheet.
+  marked with data-hero. The header is transparent with the white logo at the very top,
+  becomes a dark frosted bar as soon as a PageHero starts scrolling under it (so hero text never
+  collides with the nav), and a light bar with the dark logo once the hero has scrolled away.
+  Over the full-screen 3D story (data-hero="immersive") it stays clear, with only a soft scrim
+  for legibility, so the scene isn't cut by a bar.
+  Pages without a dark hero (cart, checkout) get the light bar straight away. The menu is a
+  full-screen sheet.
 */
 const MENU = [...NAV.slice(0, 3), { href: "/hospital-to-home", label: "Hospital to Home™" }, ...NAV.slice(3)];
 
@@ -21,6 +25,8 @@ export default function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [light, setLight] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [immersive, setImmersive] = useState(false);
   const button = useRef<HTMLButtonElement>(null);
   const firstLink = useRef<HTMLAnchorElement>(null);
   const wasOpen = useRef(false);
@@ -30,6 +36,8 @@ export default function SiteHeader() {
     const onScroll = () => {
       const hero = document.querySelector("[data-hero]");
       setLight(hero ? hero.getBoundingClientRect().bottom <= 80 : true);
+      setScrolled(window.scrollY > 8);
+      setImmersive(hero?.getAttribute("data-hero") === "immersive");
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -59,7 +67,13 @@ export default function SiteHeader() {
     <>
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow] duration-300 ${
-          light ? "bg-spring/90 shadow-[0_1px_0_var(--color-spring-deep)] backdrop-blur-md" : "bg-transparent"
+          light
+            ? "bg-spring/90 shadow-[0_1px_0_var(--color-spring-deep)] backdrop-blur-md"
+            : !scrolled
+              ? "bg-transparent"
+              : immersive
+                ? "bg-gradient-to-b from-black/45 to-transparent"
+                : "bg-sherpa-deep/85 shadow-[0_1px_0_rgb(255_255_255/0.08)] backdrop-blur-md"
         }`}
       >
         <div className="wrap flex h-20 items-center justify-between gap-4">
@@ -95,7 +109,10 @@ export default function SiteHeader() {
                     >
                       {l.label}
                       {on && (
-                        <span aria-hidden className={`absolute inset-x-3 -bottom-0.5 h-0.5 rounded-full xl:inset-x-4 ${light ? "bg-orient" : "bg-turquoise"}`} />
+                        <span
+                          aria-hidden
+                          className={`absolute inset-x-3 -bottom-0.5 h-0.5 rounded-full xl:inset-x-4 ${light ? "bg-orient" : "bg-turquoise"}`}
+                        />
                       )}
                     </Link>
                   </li>

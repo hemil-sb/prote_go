@@ -25,8 +25,10 @@ export default function HowItWorks() {
             text="Science that protects. Technology that lasts."
             className="text-headline font-normal text-turquoise lg:col-span-7"
           />
-          <Reveal as="p" delay={0.2} className="mx-auto max-w-[28rem] text-lede text-white/80 lg:col-span-5 lg:mx-0">
-            Si-QAC nanotechnology bonds to the surface, so protection stays put instead of drying away.
+          <Reveal delay={0.2} className="mx-auto max-w-[28rem] lg:col-span-5 lg:mx-0">
+            <p className="text-lede text-white/80">
+              Si-QAC nanotechnology bonds to the surface, so protection stays put instead of drying away.
+            </p>
           </Reveal>
         </div>
 

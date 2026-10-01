@@ -22,10 +22,6 @@ export const industry: Industry = {
         body: "Door handles, reception counters, lift buttons and bathroom fittings are shared by many hands each day.",
       },
       {
-        title: "Disinfectants stop when they dry.",
-        body: "A surface is protected only while the product is wet. After that, it is open to recontamination.",
-      },
-      {
         title: "Reputation is built on every experience.",
         body: "A single poor impression can shape reviews, guest confidence and repeat stays.",
       },
@@ -63,18 +59,6 @@ export const industry: Industry = {
   ],
   approach: [
     {
-      title: "Assess the guest journey.",
-      body: "We walk your property from arrival to departure, map the high-touch surfaces and take ATP readings to set a baseline.",
-    },
-    {
-      title: "Apply with minimal disruption.",
-      body: "Trained technicians apply ProteGo by ULV to clean, hard surfaces in planned windows. Treated areas are ready in about an hour.",
-    },
-    {
-      title: "Verify and report.",
-      body: "Before-and-after ATP testing and a digital report show what changed. We renew protection every 30 days.",
-    },
-    {
       title: "Show guests the standard.",
       body: "Treated spaces can display the ProteGo Protected Space™ certificate, with a QR code guests can scan to verify.",
     },
@@ -83,10 +67,6 @@ export const industry: Industry = {
     {
       who: "Guests",
       body: "Greater confidence in the surfaces they touch throughout their stay.",
-    },
-    {
-      who: "Housekeeping",
-      body: "Additional support between cleaning cycles that complements, not replaces, your routines.",
     },
     {
       who: "General managers",
@@ -102,10 +82,6 @@ export const industry: Industry = {
     {
       q: "Will treatment disrupt our guests?",
       a: "We plan applications around occupancy and operations. Surfaces are treated after cleaning, and areas are ready again once dry, in about an hour.",
-    },
-    {
-      q: "Does ProteGo replace housekeeping?",
-      a: "No. It complements, not replaces, your housekeeping programme. Clean as usual; ProteGo protects treated surfaces in between.",
     },
     {
       q: "Can it be used in restaurants and kitchens?",

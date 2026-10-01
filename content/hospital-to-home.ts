@@ -97,7 +97,7 @@ export const H2H: HospitalToHomeContent = {
 
   partners: {
     title: "For hospitals and care teams.",
-    body: "Hospital to Home™ is designed to be evaluated, not adopted on faith. We work with discharge planning, infection prevention and quality teams to try the programme on a limited scale first, often a pilot in a nephrology, oncology or transplant department. Clinical judgement remains with the treating team, and the programme complements, not replaces, existing infection-prevention practice.",
+    body: "Hospital to Home™ is designed to be evaluated, not adopted on faith. We work with discharge planning, infection prevention and quality teams to try the programme on a limited scale first, often a pilot in a nephrology, oncology or transplant department. Clinical judgement remains with the treating team.",
   },
 
   privacy:
@@ -110,15 +110,11 @@ export const H2H: HospitalToHomeContent = {
     },
     {
       q: "How long does the protection last?",
-      a: "Up to 30 days on treated surfaces under normal conditions. It can vary with cleaning, wear and how the room is used, which is why we recommend a follow-up reading at around 28 days.",
+      a: "Up to 30 days on treated surfaces under normal conditions. It can vary with cleaning, wear and how the room is used.",
     },
     {
       q: "Which surfaces do you treat?",
       a: "Hard, high-touch surfaces that are compatible with the protectant, agreed with the family during the assessment. We do not treat food or food-contact surfaces.",
-    },
-    {
-      q: "What happens on the day?",
-      a: "A technician prepares and treats the agreed surfaces, takes ATP readings before and after, and explains the report. Treated areas are ready once dry, in about an hour.",
     },
     {
       q: "Do we need a referral from the hospital?",

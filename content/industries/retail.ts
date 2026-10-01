@@ -12,7 +12,7 @@ export const industry: Industry = {
     alt: "Shoppers walking through a bright shopping centre atrium",
   },
   headline: "Every visit shapes an impression.",
-  lede: "From the moment visitors arrive to the moment they leave, they rely on shared surfaces. ProteGo adds long-lasting protection to those touchpoints, with results you can measure.",
+  lede: "From the moment visitors arrive to the moment they leave, they rely on shared surfaces. ProteGo adds up to 30 days of protection per application to those touchpoints, with results you can measure.",
   challenge: {
     title: "Countless touches across every visit.",
     intro:
@@ -79,18 +79,6 @@ export const industry: Industry = {
   ],
   approach: [
     {
-      title: "Assess and plan",
-      body: "We look at visitor footfall, operating hours and high-touch areas, then design a programme around your centre.",
-    },
-    {
-      title: "Professional application",
-      body: "Trained technicians apply ProteGo with ULV equipment for even coverage. It forms an invisible, bonded Si-QAC layer that disrupts microbes on contact.",
-    },
-    {
-      title: "Verify with ATP testing",
-      body: "Readings are taken at set locations before and after application and recorded in a digital report.",
-    },
-    {
       title: "Show it with Protected Space™",
       body: "Treated sites can display the ProteGo Protected Space™ certificate and decal, with a QR code visitors can scan to verify.",
     },
@@ -98,31 +86,19 @@ export const industry: Industry = {
   benefits: [
     {
       who: "Centre management",
-      body: "A measurable hygiene standard for the shared spaces you run, renewed every 30 days.",
+      body: "A measurable hygiene standard for the shared spaces you run.",
     },
     {
       who: "Visitors",
-      body: "Cleaner touchpoints and a visible sign that their comfort has been considered.",
+      body: "Cleaner touchpoints at every step of their visit.",
     },
     {
       who: "Tenants",
       body: "Better-kept common areas that support the experience their own stores offer.",
     },
-    {
-      who: "Portfolio operators",
-      body: "One consistent programme and reporting format that can scale across several properties.",
-    },
   ],
-  line: "Every visit. Every surface.",
+  line: "Every surface. Every day.",
   faqs: [
-    {
-      q: "How long does protection last?",
-      a: "Up to 30 days on treated surfaces under normal conditions. Results can vary with cleaning practices, abrasion and environment, which is why we verify with ATP testing.",
-    },
-    {
-      q: "Can we try it in one area first?",
-      a: "Yes. Begin with a pilot in one area, such as the washrooms or escalators, review the results, then expand if it suits you.",
-    },
     {
       q: "Is there an option for individual stores?",
       a: "Yes. Smaller stores, kiosks and counters can use the DIY Protection Kit, a 500 ml bottle that covers about 750 sq ft.",

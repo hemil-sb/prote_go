@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
+import { heightToNormalRGBA, tileableNoise } from "./noise";
 
 /*
   Small helpers shared by the scene objects: textures drawn on a canvas at runtime
@@ -70,19 +71,58 @@ export function shadowTexture(size = 128): THREE.CanvasTexture {
   return finish(c);
 }
 
-/** a stylised fingerprint: concentric broken ovals */
-export function fingerprintTexture(size = 128): THREE.CanvasTexture {
+/**
+ * A real fingerprint on steel: a faint oily oval smudge with fine, broken ridge lines that
+ * catch the light. Colour is baked in (dark smudge, light ridges), so the material is untinted.
+ */
+export function fingerprintTexture(size = 192): THREE.CanvasTexture {
   const [c, ctx] = canvas(size);
   const rand = seeded(7);
-  ctx.strokeStyle = "rgba(255,255,255,0.9)";
+  const cx = size / 2;
+  const cy = size / 2;
+  const rx = size * 0.33;
+  const ry = size * 0.42;
+
+  // the smudge
+  const g = ctx.createRadialGradient(cx, cy, size * 0.05, cx, cy, ry);
+  g.addColorStop(0, "rgba(8,28,34,0.34)");
+  g.addColorStop(0.75, "rgba(8,28,34,0.16)");
+  g.addColorStop(1, "rgba(8,28,34,0)");
+  ctx.save();
+  ctx.scale(rx / ry, 1);
+  ctx.translate((cx * ry) / rx - cx, 0);
+  ctx.fillStyle = g;
+  ctx.beginPath();
+  ctx.arc(cx, cy, ry, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+
+  // ridges: whorl arcs, each broken into a few segments
+  ctx.save();
+  ctx.beginPath();
+  ctx.ellipse(cx, cy, rx * 0.96, ry * 0.96, 0, 0, Math.PI * 2);
+  ctx.clip();
+  ctx.strokeStyle = "rgba(255,255,255,0.62)";
   ctx.lineCap = "round";
-  for (let r = 6; r < size * 0.42; r += 7) {
-    ctx.lineWidth = 2.2;
-    const gap = rand() * Math.PI * 2;
-    ctx.beginPath();
-    ctx.ellipse(size / 2, size / 2, r * 0.78, r, 0, gap, gap + Math.PI * (1.55 + rand() * 0.35));
-    ctx.stroke();
+  ctx.lineWidth = size * 0.009;
+  for (let r = size * 0.035; r < ry; r += size * 0.034) {
+    const segs = 2 + Math.floor(rand() * 3);
+    let a = rand() * Math.PI * 2;
+    for (let k = 0; k < segs; k++) {
+      const len = (Math.PI * 2 / segs) * (0.55 + rand() * 0.35);
+      ctx.beginPath();
+      ctx.ellipse(cx + (rand() - 0.5) * 3, cy + (rand() - 0.5) * 3, r * 0.78, r, 0.1, a, a + len);
+      ctx.stroke();
+      a += Math.PI * 2 / segs;
+    }
   }
+  ctx.restore();
+
+  // patchy transfer: skin only touches in places
+  const img = ctx.getImageData(0, 0, size, size);
+  const n = tileableNoise(size, 3, 21);
+  for (let i = 0; i < size * size; i++) img.data[i * 4 + 3] = Math.round(img.data[i * 4 + 3] * (0.45 + 0.55 * n[i]));
+  ctx.putImageData(img, 0, 0);
   return finish(c);
 }
 
@@ -177,76 +217,108 @@ export function labelTexture(text: string, size = 128): THREE.CanvasTexture {
  * A germ, drawn as a friendly textbook microbe (no tail): pale body, dark outline, short
  * hairs or spikes around the edge, a few inner spots. "rod" is a bacterium, "round" a coccus.
  */
-export function germTexture(kind: "rod" | "round", size = 160): THREE.CanvasTexture {
+/**
+ * Soft translucent microbes, as the brand guide asks (Spring / Sherpa tint, never red or green):
+ * a capsule, a coccus and a two-cell cluster. A gel-like body with a lit rim and a baked contact
+ * shadow so they sit on the steel, fine semi-transparent hairs, and faint inner spots. No outlines.
+ */
+export function germTexture(kind: "rod" | "round" | "pair", size = 192): THREE.CanvasTexture {
   const [c, ctx] = canvas(size);
-  const ink = COLORS.sherpaDeep;
+  const rand = seeded(kind === "rod" ? 31 : kind === "round" ? 32 : 33);
   const cx = size / 2;
   const cy = size / 2;
-  ctx.lineCap = "round";
-  ctx.strokeStyle = ink;
 
-  if (kind === "rod") {
-    const rx = size * 0.3;
-    const ry = size * 0.15;
-    // short hairs (pili) all around the edge
-    ctx.lineWidth = size * 0.018;
-    for (let i = 0; i < 26; i++) {
-      const t = (i / 26) * Math.PI * 2;
+  const body = () => {
+    ctx.beginPath();
+    if (kind === "rod") {
+      const rx = size * 0.28;
+      const ry = size * 0.14;
+      ctx.roundRect(cx - rx, cy - ry, rx * 2, ry * 2, ry);
+    } else if (kind === "round") {
+      ctx.arc(cx, cy, size * 0.2, 0, Math.PI * 2);
+    } else {
+      const r = size * 0.15;
+      ctx.arc(cx - r * 0.78, cy, r, 0, Math.PI * 2);
+      ctx.moveTo(cx + r * 0.78 + r, cy);
+      ctx.arc(cx + r * 0.78, cy, r, 0, Math.PI * 2);
+    }
+  };
+  // a point on the outline at angle t, and its outward normal
+  const edge = (t: number): [number, number, number, number] => {
+    if (kind === "rod") {
+      const rx = size * 0.28;
+      const ry = size * 0.14;
       const x = cx + Math.cos(t) * rx;
       const y = cy + Math.sin(t) * ry;
       const nx = Math.cos(t) * ry;
       const ny = Math.sin(t) * rx;
       const n = Math.hypot(nx, ny);
-      const len = size * (0.05 + (i % 3) * 0.012);
-      ctx.beginPath();
-      ctx.moveTo(x, y);
-      ctx.lineTo(x + (nx / n) * len, y + (ny / n) * len);
-      ctx.stroke();
+      return [x, y, nx / n, ny / n];
     }
+    const r = kind === "round" ? size * 0.2 : size * 0.15;
+    const ox = kind === "pair" ? (Math.cos(t) > 0 ? 1 : -1) * r * 0.78 : 0;
+    return [cx + ox + Math.cos(t) * r, cy + Math.sin(t) * r, Math.cos(t), Math.sin(t)];
+  };
+
+  // hairs (pili), fine and translucent
+  ctx.strokeStyle = "rgba(0,98,123,0.5)";
+  ctx.lineCap = "round";
+  ctx.lineWidth = size * 0.009;
+  const hairs = kind === "rod" ? 30 : 18;
+  for (let i = 0; i < hairs; i++) {
+    const t = (i / hairs) * Math.PI * 2 + rand() * 0.15;
+    const [x, y, nx, ny] = edge(t);
+    const len = size * (0.045 + rand() * 0.035);
+    const wig = (rand() - 0.5) * 0.6;
     ctx.beginPath();
-    ctx.roundRect(cx - rx, cy - ry, rx * 2, ry * 2, ry);
-  } else {
-    const r = size * 0.21;
-    // spikes with round tips
-    ctx.lineWidth = size * 0.022;
-    ctx.fillStyle = ink;
-    for (let i = 0; i < 12; i++) {
-      const t = (i / 12) * Math.PI * 2 + 0.2;
-      const x0 = cx + Math.cos(t) * r;
-      const y0 = cy + Math.sin(t) * r;
-      const x1 = cx + Math.cos(t) * (r + size * 0.085);
-      const y1 = cy + Math.sin(t) * (r + size * 0.085);
-      ctx.beginPath();
-      ctx.moveTo(x0, y0);
-      ctx.lineTo(x1, y1);
-      ctx.stroke();
-      ctx.beginPath();
-      ctx.arc(x1, y1, size * 0.022, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    ctx.beginPath();
-    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.moveTo(x, y);
+    ctx.quadraticCurveTo(x + nx * len * 0.5 - ny * wig * len, y + ny * len * 0.5 + nx * wig * len, x + nx * len, y + ny * len);
+    ctx.stroke();
   }
-  // body
-  ctx.fillStyle = COLORS.turquoiseTint;
+
+  // contact shadow, then the gel body
+  ctx.save();
+  ctx.shadowColor = "rgba(0,20,26,0.6)";
+  ctx.shadowBlur = size * 0.06;
+  ctx.shadowOffsetX = size * 0.025;
+  ctx.shadowOffsetY = size * 0.035;
+  const gel = ctx.createRadialGradient(cx - size * 0.06, cy - size * 0.06, 0, cx, cy, size * 0.3);
+  gel.addColorStop(0, "rgba(232,252,251,0.92)");
+  gel.addColorStop(0.55, "rgba(170,220,228,0.86)");
+  gel.addColorStop(1, "rgba(70,150,168,0.9)");
+  ctx.fillStyle = gel;
+  body();
   ctx.fill();
-  ctx.lineWidth = size * 0.035;
+  ctx.restore();
+
+  // membrane: a soft darker edge and a lit rim on the upper left
+  ctx.save();
+  body();
+  ctx.clip();
+  ctx.lineWidth = size * 0.04;
+  ctx.strokeStyle = "rgba(0,98,123,0.62)";
+  body();
   ctx.stroke();
-  // inner spots
-  ctx.fillStyle = "rgba(0, 98, 123, 0.55)";
+  ctx.lineWidth = size * 0.016;
+  ctx.strokeStyle = "rgba(255,255,255,0.75)";
+  ctx.setLineDash([size * 0.5, size * 1.2]);
+  ctx.lineDashOffset = size * 0.35;
+  body();
+  ctx.stroke();
+  ctx.restore();
+
+  // faint inner spots
   const spots: [number, number, number][] =
     kind === "rod"
-      ? [
-          [-0.12, -0.03, 0.03],
-          [0.06, 0.04, 0.024],
-          [0.16, -0.04, 0.018],
-        ]
-      : [
-          [-0.06, -0.05, 0.03],
-          [0.07, 0.02, 0.025],
-          [-0.02, 0.08, 0.02],
-        ];
+      ? [[-0.12, -0.02, 0.035], [0.05, 0.03, 0.028], [0.15, -0.03, 0.02]]
+      : kind === "round"
+        ? [[-0.05, -0.04, 0.035], [0.06, 0.02, 0.028], [-0.01, 0.07, 0.02]]
+        : [[-0.14, -0.02, 0.03], [0.1, 0.03, 0.028], [-0.08, 0.05, 0.018]];
   for (const [dx, dy, r] of spots) {
+    const sg = ctx.createRadialGradient(cx + dx * size, cy + dy * size, 0, cx + dx * size, cy + dy * size, r * size);
+    sg.addColorStop(0, "rgba(0,74,93,0.5)");
+    sg.addColorStop(1, "rgba(0,98,123,0)");
+    ctx.fillStyle = sg;
     ctx.beginPath();
     ctx.arc(cx + dx * size, cy + dy * size, r * size, 0, Math.PI * 2);
     ctx.fill();
@@ -273,21 +345,52 @@ export function arrowTexture(dir: "up" | "down", size = 128): THREE.CanvasTextur
 }
 
 /** soft plaster: gentle mottling, to be tinted by the material colour */
-export function plasterTexture(size = 512): THREE.CanvasTexture {
+const ease = (t: number) => t * t * (3 - 2 * t);
+
+/**
+ * Large-format micro-cement cladding for the lobby wall. One tile is one wall panel: a dark
+ * shadow-gap joint and a soft bevel at the edges, fine two-scale grain on the face, and a
+ * matching normal map so the downlights produce a real sheen. Drawn at runtime, nothing to
+ * download; 256 px on low quality, 512 px on high.
+ */
+export function claddingTextures(size = 512): { map: THREE.CanvasTexture; normalMap: THREE.CanvasTexture } {
+  const grain = tileableNoise(size, 5, 11); // fine render grain
+  const wash = tileableNoise(size, 2, 4); // slow tonal drift across the panel
+  const gap = Math.max(1, Math.round(size * 0.007));
+  const bevel = Math.max(3, Math.round(size * 0.016));
+  const height = new Float32Array(size * size);
+
   const [c, ctx] = canvas(size);
-  ctx.fillStyle = "#ffffff";
-  ctx.fillRect(0, 0, size, size);
-  const rand = seeded(3);
-  for (let i = 0; i < 1400; i++) {
-    const r = 4 + rand() * 22;
-    ctx.fillStyle = `rgba(0,0,0,${0.008 + rand() * 0.014})`;
-    ctx.beginPath();
-    ctx.arc(rand() * size, rand() * size, r, 0, Math.PI * 2);
-    ctx.fill();
+  const img = ctx.createImageData(size, size);
+  for (let y = 0; y < size; y++) {
+    for (let x = 0; x < size; x++) {
+      const i = y * size + x;
+      const d = Math.min(x, y, size - 1 - x, size - 1 - y); // pixels to the tile edge
+      const face = d < gap ? 0 : d < gap + bevel ? ease((d - gap) / bevel) : 1;
+      height[i] = face * (0.75 + 0.25 * grain[i]);
+      // near-grey luminance: the wall colour comes from the material, so it reads true
+      const tone = (0.8 + 0.14 * grain[i] + 0.06 * wash[i]) * (0.42 + 0.58 * face);
+      const v = Math.round(255 * Math.min(1, tone));
+      img.data[i * 4] = v;
+      img.data[i * 4 + 1] = v;
+      img.data[i * 4 + 2] = v;
+      img.data[i * 4 + 3] = 255;
+    }
   }
-  const t = finish(c);
-  t.wrapS = t.wrapT = THREE.RepeatWrapping;
-  return t;
+  ctx.putImageData(img, 0, 0);
+  const map = finish(c);
+  map.wrapS = map.wrapT = THREE.RepeatWrapping;
+  map.anisotropy = 4;
+
+  const [nc, nctx] = canvas(size);
+  const nimg = nctx.createImageData(size, size);
+  nimg.data.set(heightToNormalRGBA(height, size, 4));
+  nctx.putImageData(nimg, 0, 0);
+  const normalMap = new THREE.CanvasTexture(nc);
+  normalMap.colorSpace = THREE.NoColorSpace; // normal data is linear
+  normalMap.wrapS = normalMap.wrapT = THREE.RepeatWrapping;
+  normalMap.anisotropy = 4;
+  return { map, normalMap };
 }
 
 /** the dark of the opening: black, with the faintest teal glow in the middle */

@@ -12,7 +12,7 @@ export const industry: Industry = {
     alt: "A technician in a hairnet and white coat looking through a microscope",
   },
   headline: "Hygiene beyond the production line.",
-  lede: "In food manufacturing, hygiene is part of how you meet your standards every day. ProteGo adds long-lasting protection to the high-touch, non-food-contact surfaces around your production areas.",
+  lede: "In food manufacturing, hygiene is part of how you meet your standards every day. ProteGo adds up to 30 days of protection per application to the high-touch, non-food-contact surfaces around your production areas.",
   challenge: {
     title: "Clean at the start of a shift. Touched all day after.",
     intro:
@@ -21,10 +21,6 @@ export const industry: Industry = {
       {
         title: "Constant movement",
         body: "Staff, contractors, drivers and visitors pass through entrances, change rooms, corridors and dispatch areas throughout every shift.",
-      },
-      {
-        title: "Recontamination between cleans",
-        body: "Once a surface has been cleaned and has dried, the next touch can bring microbes straight back.",
       },
       {
         title: "Scrutiny that never stops",
@@ -88,18 +84,6 @@ export const industry: Industry = {
       title: "Agree the scope with your team",
       body: "We walk the site with your food safety team and agree which hard, non-food-contact, high-touch surfaces are in scope. Product-contact surfaces stay with your existing procedures.",
     },
-    {
-      title: "Measure a baseline",
-      body: "Representative surfaces are swabbed with ATP testing before treatment, so you start from a measured reading in Relative Light Units (RLU).",
-    },
-    {
-      title: "Apply between production runs",
-      body: "Trained technicians apply ProteGo with ULV equipment after cleaning, when the area is empty. Surfaces need about 1 hour to dry.",
-    },
-    {
-      title: "Verify, report and renew",
-      body: "ATP readings are repeated after application and recorded in a digital report. Protection lasts up to 30 days on treated surfaces under normal conditions, so we renew monthly.",
-    },
   ],
   benefits: [
     {
@@ -120,14 +104,6 @@ export const industry: Industry = {
     {
       q: "Can ProteGo be used on processing lines or conveyor belts?",
       a: "No. ProteGo is for hard, non-food-contact surfaces only. It is not for food, ingredients, utensils or any surface that comes into direct contact with food or product.",
-    },
-    {
-      q: "Does it replace our cleaning and sanitation schedule?",
-      a: "No. ProteGo complements, not replaces, your cleaning, sanitation and food safety procedures. It works on treated surfaces between cleans.",
-    },
-    {
-      q: "How do you show it is working?",
-      a: "We take ATP readings before and after application and share them in a digital report. ATP measures organic residue on a surface, shown in Relative Light Units (RLU), not a microbe count.",
     },
   ],
   contactSector: "Manufacturing or pharma",

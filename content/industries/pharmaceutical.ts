@@ -12,11 +12,11 @@ export const industry: Industry = {
     alt: "A scientist working at a microscope",
   },
   headline: "Hygiene doesn't stop at the production floor.",
-  lede: "Microbes follow people, movement and touch throughout a facility. ProteGo helps protect the high-touch, non-product-contact surfaces around production, alongside the protocols you have already validated.",
+  lede: "Microbes follow people, movement and touch throughout a facility. ProteGo adds up to 30 days of protection per application to the high-touch, non-product-contact surfaces around production, alongside the protocols you have already validated.",
   challenge: {
     title: "The hygiene challenge beyond the manufacturing process.",
     intro:
-      "Validated cleaning and disinfection protocols do essential work inside production. Around them, employees, contractors, visitors and materials move through shared spaces all day.",
+      "Validated cleaning and disinfection protocols do essential work inside production. The offices, corridors, warehouses and amenities around it need attention too.",
     points: [
       {
         title: "People on the move",
@@ -25,10 +25,6 @@ export const industry: Industry = {
       {
         title: "Shared touchpoints",
         body: "Many people touch the same door handles, lift buttons, stair rails and access panels each day.",
-      },
-      {
-        title: "Recontamination after cleaning",
-        body: "Routine cleaning removes contamination, but high-touch surfaces can begin collecting microorganisms again as soon as they are used.",
       },
       {
         title: "A site-wide GMP culture",
@@ -85,19 +81,7 @@ export const industry: Industry = {
   approach: [
     {
       title: "Assess with your QA team",
-      body: "A walkthrough identifies high-touch, non-product-contact surfaces and defines the scope, aligned with your site SOPs and QA approval where applicable.",
-    },
-    {
-      title: "Set an ATP baseline",
-      body: "Representative surfaces are tested before treatment to give a measurable starting point in Relative Light Units (RLU).",
-    },
-    {
-      title: "Apply around your schedule",
-      body: "Trained technicians apply ProteGo with professional ULV equipment, planned around operations to keep disruption to a minimum.",
-    },
-    {
-      title: "Verify, document, renew",
-      body: "ATP readings and application records go into a digital report. Protection lasts up to 30 days on treated surfaces under normal conditions, so the programme repeats monthly.",
+      body: "A walkthrough with your QA team defines which high-touch, non-product-contact surfaces are in scope, aligned with your site SOPs, change control and QA approval where applicable.",
     },
   ],
   benefits: [
@@ -111,7 +95,7 @@ export const industry: Industry = {
     },
     {
       who: "Operations",
-      body: "Scheduled applications that fit around production, starting with a pilot at one facility before any wider rollout.",
+      body: "Scheduled applications planned around production to keep disruption to a minimum.",
     },
   ],
   line: "Evaluate. Verify. Decide.",
@@ -123,14 +107,6 @@ export const industry: Industry = {
     {
       q: "What about areas close to production?",
       a: "Equipment exteriors, QC laboratory support areas, material transfer corridors and similar spaces should be reviewed under your site's quality and change-control procedures first. When in doubt, consult your QA and Validation teams.",
-    },
-    {
-      q: "Does it replace our validated cleaning?",
-      a: "No. ProteGo complements, not replaces, your validated cleaning and disinfection programme. It adds protection to appropriate surfaces between scheduled applications.",
-    },
-    {
-      q: "How do we evaluate it?",
-      a: "Start with a pilot in agreed areas. We take ATP readings before and after application, share a digital report and review the findings with your team before you decide on next steps.",
     },
   ],
   contactSector: "Manufacturing or pharma",

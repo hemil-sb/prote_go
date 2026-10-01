@@ -117,8 +117,8 @@ export function createLiftPanel(ctx: ObjectContext): LiftPanel {
 
   // soft contact shadow behind the panel, for depth
   const shadow = new THREE.Mesh(
-    keep(new THREE.PlaneGeometry(PANEL_W * 2.4, PANEL_H * 1.9)),
-    keep(new THREE.MeshBasicMaterial({ map: keep(shadowTexture()), transparent: true, opacity: 0.55, depthWrite: false })),
+    keep(new THREE.PlaneGeometry(PANEL_W * 2.7, PANEL_H * 2.0)),
+    keep(new THREE.MeshBasicMaterial({ map: keep(shadowTexture()), transparent: true, opacity: 0.7, depthWrite: false })),
   );
   shadow.position.set(0.25, -0.25, -0.7);
   group.add(shadow);

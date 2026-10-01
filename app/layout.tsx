@@ -6,9 +6,11 @@ import { CartProvider } from "@/components/cart/CartProvider";
 import SiteHeader from "@/components/site/SiteHeader";
 import SiteFooter from "@/components/site/SiteFooter";
 
-// Manrope, the brand typeface, from the brand asset pack (variable weight 200–800)
+// Manrope, the brand typeface (variable weight 200–800). Subset to Latin plus the symbols the
+// site uses (₹ ™ – × … → ▲) and packed as woff2: 24 KB instead of the 165 KB TTF in the brand pack.
+// Rebuild from "ProteGo Brand Assets" with scripts/subset-font.py if the glyph set changes.
 const manrope = localFont({
-  src: "./fonts/Manrope-VariableFont_wght.ttf",
+  src: "./fonts/Manrope-Latin-VariableFont_wght.woff2",
   weight: "200 800",
   variable: "--font-manrope",
   display: "swap",
@@ -25,8 +27,7 @@ export const metadata: Metadata = {
   applicationName: "ProteGo Hygiene",
   openGraph: {
     title: "ProteGo Hygiene",
-    description:
-      "Disinfected is not the same as protected. Surface protection that keeps working for up to 30 days.",
+    description: "Disinfected is not the same as protected. Surface protection that keeps working for up to 30 days.",
     siteName: "ProteGo Hygiene",
     locale: "en_IN",
     type: "website",

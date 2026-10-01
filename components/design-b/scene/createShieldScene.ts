@@ -134,6 +134,8 @@ export function createShieldScene(canvas: HTMLCanvasElement, opts: ShieldSceneOp
   camera.add(curtain);
   scene.add(camera);
   const objects: SceneObject[] = [lobby, panel, field, stream, ...surfaceEffects];
+  const applyObjectLayout = () => objects.forEach((o) => o.setLayout?.(layout));
+  applyObjectLayout();
 
   let p = 0;
   let width = 1;
@@ -144,7 +146,7 @@ export function createShieldScene(canvas: HTMLCanvasElement, opts: ShieldSceneOp
     camera.aspect = width / height;
     // shift the rendered image so the panel sits beside (desktop) or above (phones) the text
     if (layout === "side") camera.setViewOffset(width, height, -width * 0.15, 0, width, height);
-    else if (layout === "top") camera.setViewOffset(width, height, 0, height * 0.24, width, height);
+    else if (layout === "top") camera.setViewOffset(width, height, 0, height * 0.15, width, height); // panel sits in the upper half, clear of the header and close to the text
     else camera.clearViewOffset();
     camera.updateProjectionMatrix();
   }
@@ -265,6 +267,7 @@ export function createShieldScene(canvas: HTMLCanvasElement, opts: ShieldSceneOp
     setLayout(next) {
       layout = next;
       applyLayout();
+      applyObjectLayout();
     },
     resize,
     setActive(on) {

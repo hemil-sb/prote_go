@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import ExploreLink from "@/components/site/ExploreLink";
 import { useEffect, useRef, useState } from "react";
 import { Building2, Factory, GraduationCap, Hospital, Plane, ShieldCheck, UtensilsCrossed, type LucideIcon } from "lucide-react";
 import Placeholder from "@/components/Placeholder";
@@ -21,10 +22,12 @@ const INDUSTRIES: {
   hotspots: string[];
   line: string;
   cta: string;
+  href: string;
 }[] = [
   {
     icon: Hospital,
     name: "Healthcare",
+    href: "/industries/healthcare",
     covers: "Hospitals, clinics and recovery at home",
     img: "/images/clinician-scrubs.jpg",
     alt: "A smiling healthcare worker in turquoise scrubs",
@@ -35,6 +38,7 @@ const INDUSTRIES: {
   {
     icon: GraduationCap,
     name: "Education",
+    href: "/industries/education",
     covers: "Schools, colleges and campuses",
     img: "/images/education-classroom.jpg",
     alt: "Students writing at their desks in a classroom",
@@ -45,6 +49,7 @@ const INDUSTRIES: {
   {
     icon: UtensilsCrossed,
     name: "Hospitality and food",
+    href: "/industries/hotels-and-resorts",
     covers: "Hotels, restaurants, QSRs, cafés and cloud kitchens",
     img: "/images/cafe-table-cleaning.jpg",
     alt: "A café worker wiping down a table",
@@ -55,6 +60,7 @@ const INDUSTRIES: {
   {
     icon: Building2,
     name: "Workplaces and retail",
+    href: "/industries/offices",
     covers: "Offices, tech parks, malls, multiplexes and gyms",
     img: "/images/office-worker.jpg",
     alt: "A smiling office worker at her desk",
@@ -65,6 +71,7 @@ const INDUSTRIES: {
   {
     icon: Plane,
     name: "Travel and public spaces",
+    href: "/industries/airports",
     covers: "Airports, railways and government buildings",
     img: "/images/travel-escalator.jpg",
     alt: "Travellers riding an escalator, hands on the handrail, beneath a bilingual toilets sign",
@@ -75,6 +82,7 @@ const INDUSTRIES: {
   {
     icon: Factory,
     name: "Manufacturing",
+    href: "/industries/pharmaceutical",
     covers: "Pharma and food processing",
     img: "/images/scientist-microscope.jpg",
     alt: "A scientist working at a microscope",
@@ -247,12 +255,9 @@ export default function IndustryExplorer() {
           <p key={active} className="ind-fade max-w-[26rem] text-title font-normal text-sherpa-deep">
             {current.line}
           </p>
-          <a
-            href="#contact"
-            className="shrink-0 self-start rounded-full border border-sherpa-deep/25 px-5 py-3 text-sm font-semibold text-sherpa-deep btn hover:border-sherpa-deep sm:self-auto"
-          >
-            Book an assessment for your {current.cta}
-          </a>
+          <ExploreLink href={current.href} tone="outline" className="shrink-0 self-start sm:self-auto">
+            Protection for your {current.cta}
+          </ExploreLink>
         </div>
       </div>
     </div>

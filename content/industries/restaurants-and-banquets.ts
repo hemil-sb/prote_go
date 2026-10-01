@@ -22,10 +22,6 @@ export const industry: Industry = {
         body: "Arrival, host stand, bar, table, washroom, payment and exit: the guest journey is full of shared surfaces.",
       },
       {
-        title: "Sanitiser stops when it dries.",
-        body: "Repeated wiping protects a surface only for a short time, and it takes effort every shift.",
-      },
-      {
         title: "Inspections happen.",
         body: "Health inspections and internal audits ask for consistent practice and clear records.",
       },
@@ -63,30 +59,14 @@ export const industry: Industry = {
   ],
   approach: [
     {
-      title: "Assess.",
-      body: "We study your space, surfaces and service flow, and identify the touchpoints that matter most.",
-    },
-    {
-      title: "Protect.",
-      body: "After cleaning, when the space is empty, trained technicians apply ProteGo by ULV to hard, non-food-contact surfaces.",
-    },
-    {
-      title: "Verify.",
-      body: "ATP testing measures surface cleanliness in Relative Light Units (RLU), so you have objective data, not guesswork.",
-    },
-    {
-      title: "Report and renew.",
-      body: "You receive a digital report with results and recommendations, and we renew protection every 30 days.",
+      title: "Planned around service.",
+      body: "We apply after cleaning, when the space is empty, around your service hours. Treated surfaces are ready once dry, in about an hour.",
     },
   ],
   benefits: [
     {
       who: "Guests",
       body: "Cleaner, protected surfaces across the whole guest journey, from arrival to exit.",
-    },
-    {
-      who: "Your team",
-      body: "Protection that works between cleans and complements, not replaces, your existing routines.",
     },
     {
       who: "Owners and managers",
@@ -102,18 +82,6 @@ export const industry: Industry = {
     {
       q: "Is ProteGo used on food or food-contact surfaces?",
       a: "No. It is designed for hard, non-food-contact surfaces only. It is never applied to food, ingredients, utensils, cookware or any surface that touches food.",
-    },
-    {
-      q: "When do you apply it?",
-      a: "After cleaning, when the space is empty, planned around your service hours. Treated surfaces are ready once dry, in about an hour.",
-    },
-    {
-      q: "Do we still need to clean and sanitise?",
-      a: "Yes. ProteGo complements, not replaces, your cleaning and food safety practices. It keeps working on treated surfaces between cleans.",
-    },
-    {
-      q: "Can we start small?",
-      a: "Yes. We can run a pilot in selected areas, verify with ATP testing and share a report before you decide on a wider programme.",
     },
   ],
   contactSector: "Hotel, restaurant or café",

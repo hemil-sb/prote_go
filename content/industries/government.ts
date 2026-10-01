@@ -12,19 +12,15 @@ export const industry: Industry = {
     alt: "A bright, orderly civic service hall with a waiting area and service counters",
   },
   headline: "Every public space matters.",
-  lede: "Municipal facilities serve citizens every day, and their shared surfaces see constant contact. ProteGo helps you evaluate a measurable approach to surface hygiene, one facility at a time.",
+  lede: "Municipal facilities serve citizens every day, and their shared surfaces see constant contact. ProteGo adds up to 30 days of protection on treated surfaces, measured one facility at a time.",
   challenge: {
     title: "Shared spaces, continuous contact.",
     intro:
-      "From ward offices to public washrooms, municipal facilities are used by many people in a day. Cleaning teams keep them in order, but a cleaned surface is open to the next touch once it dries.",
+      "From ward offices to public washrooms, cleaning teams keep municipal facilities in order. But a cleaned surface is open to the next touch once it dries.",
     points: [
       {
         title: "Many facility types",
         body: "Hospitals, schools, civic offices, service centres and washrooms each have different routines and constraints.",
-      },
-      {
-        title: "Constant footfall",
-        body: "Counters, door handles and lift buttons are touched by citizen after citizen throughout the working day.",
       },
       {
         title: "Decisions need evidence",
@@ -85,34 +81,18 @@ export const industry: Industry = {
   ],
   approach: [
     {
-      title: "Baseline first",
-      body: "ATP swab tests on key high-touch surfaces establish a starting reading before any treatment.",
-    },
-    {
-      title: "Professional ULV application",
-      body: "ProteGo Surface Protectant is applied to clean, dry, hard surfaces with ULV equipment. Treated areas need about 1 hour to dry.",
-    },
-    {
-      title: "An invisible bonded layer",
-      body: "Si-QAC technology forms a layer that bonds to the surface and disrupts microbes on contact, for up to 30 days under normal conditions.",
-    },
-    {
-      title: "Verify, follow up and report",
-      body: "ATP readings straight after treatment and again near the end of the cycle are shared in a digital report you can keep for audit.",
+      title: "Planned around public service",
+      body: "Application is scheduled for maintenance windows or temporary access restrictions, since treated areas need about 1 hour before they return to service.",
     },
   ],
   benefits: [
     {
       who: "Municipal authorities",
-      body: "A pilot with documented results, so decisions on wider use rest on evidence.",
+      body: "Documented results, so decisions on wider use across wards and zones rest on evidence.",
     },
     {
       who: "Facility administrators",
-      body: "A monthly routine that fits maintenance windows, with readings and reports for each site.",
-    },
-    {
-      who: "Sanitation and housekeeping teams",
-      body: "Support for the cleaning they already do. ProteGo is not a substitute for regular cleaning.",
+      body: "Readings and reports for each site that you can keep for audit.",
     },
     {
       who: "Citizens",
@@ -122,20 +102,8 @@ export const industry: Industry = {
   line: "Science that protects. Data that proves it.",
   faqs: [
     {
-      q: "How would a pilot work?",
-      a: "Start with one facility: a site assessment, professional application, ATP verification and a performance review near the end of the 30-day cycle.",
-    },
-    {
-      q: "Is it independently tested?",
-      a: "Efficacy has been tested by an NABL-accredited laboratory. ProteGo is about 98% water, non-leaching and non-flammable.",
-    },
-    {
-      q: "What do the ATP readings measure?",
-      a: "ATP testing measures organic residue on a surface in Relative Light Units (RLU). It shows surface cleanliness; it is not a microbe count.",
-    },
-    {
-      q: "Does it replace our cleaning and sanitation work?",
-      a: "No. ProteGo complements, not replaces, routine cleaning and sanitation.",
+      q: "Does it suit every type of facility?",
+      a: "Hospitals, schools, civic offices, service centres and public washrooms each have different routines, so suitability is assessed for each environment before treatment.",
     },
   ],
   contactSector: "Transport or government",

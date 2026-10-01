@@ -10,6 +10,8 @@ export type Product = {
   price: number | null;
   coverage: string;
   bestFor: string;
+  /** short chip on the product card */
+  tag: string;
   image: { src: string; alt: string };
   summary: string;
   idealFor: string[];
@@ -24,6 +26,7 @@ export const PRODUCTS: Product[] = [
     price: null,
     coverage: "Small spaces",
     bestFor: "Personal use",
+    tag: "Pocket size",
     image: { src: "/products/protego-100ml.jpg", alt: "ProteGo Surface Protectant, 100 ml spray bottle" },
     summary: "A pocket-sized spray for the surfaces you touch most: your desk, phone, car and travel essentials.",
     idealFor: ["Desks and workstations", "Phones and remotes", "Car door handles and steering wheels", "Travel"],
@@ -36,9 +39,15 @@ export const PRODUCTS: Product[] = [
     price: 1049,
     coverage: "About 750 sq ft",
     bestFor: "Homes, cafés, studios and small offices",
+    tag: "DIY kit",
     image: { src: "/products/protego-500ml.jpg", alt: "ProteGo Surface Protectant, 500 ml trigger-spray bottle" },
-    summary: "The protectant our teams use, applied by you. One bottle covers about 750 sq ft for up to 30 days.",
-    idealFor: ["Homes and caregivers", "Independent cafés and small restaurants", "Salons, studios and small gyms", "Small offices, clinics and counters"],
+    summary: "The protectant our teams use, applied by you. One bottle covers about 750 sq ft.",
+    idealFor: [
+      "Homes and caregivers",
+      "Independent cafés and small restaurants",
+      "Salons, studios and small gyms",
+      "Small offices, clinics and counters",
+    ],
     inTheBox: ["500 ml ready-to-use trigger spray", "Instructions for use"],
   },
   {
@@ -48,6 +57,7 @@ export const PRODUCTS: Product[] = [
     price: null,
     coverage: "About 30,000 sq ft",
     bestFor: "Facilities, housekeeping teams and partners",
+    tag: "Bulk pack",
     image: { src: "/products/protego-20l.jpg", alt: "ProteGo Surface Protectant, 20 litre bulk can" },
     summary: "The bulk pack for facilities that apply in-house with ULV equipment, across large areas.",
     idealFor: ["Hospitals, campuses and offices", "Hotels and malls", "Facility management partners", "In-house housekeeping teams"],
@@ -73,9 +83,6 @@ export const HOW_TO_USE = [
   { title: "Dry", body: "Leave it to dry for about an hour." },
   { title: "Renew", body: "Reapply every 30 days, or sooner on heavily used surfaces." },
 ];
-
-export const PRODUCT_NOTE =
-  "Protection lasts up to 30 days on treated surfaces under normal conditions. ProteGo complements routine cleaning; it does not replace it.";
 
 export const ALSO_AVAILABLE = "Also available in 5 L. Ask us for bulk and trade pricing.";
 

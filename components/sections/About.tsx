@@ -40,12 +40,14 @@ export default function About() {
         <div className="grid items-stretch gap-8 lg:grid-cols-12 lg:gap-12">
           <div className="text-center lg:col-span-7 lg:text-left">
             <Reveal as="p" effect="fade" className="font-semibold text-orient">
-              About us
+              Who we are
             </Reveal>
-            <Words id="about-title" text="Raising the bar on hygiene." className="mt-3 text-headline font-normal text-sherpa-deep" />
-            <Reveal as="p" delay={0.2} className="mx-auto mt-6 max-w-[34rem] text-lede text-ink/75 lg:mx-0">
-              ProteGo Hygiene exists for one clear reason: to raise the standards of hygiene in every space we serve. Advanced hygiene, made
-              accessible, sustainable and measurable.
+            <Words id="about-title" text="Our story." className="mt-3 text-headline font-normal text-sherpa-deep" />
+            <Reveal delay={0.2} className="mx-auto mt-6 max-w-[34rem] text-lede text-ink/75 lg:mx-0">
+              <p>
+                Think of that quiet constant in your life, the one you trust without question. Always there, steady and dependable, offering
+                protection without needing to be asked. That&rsquo;s what ProteGo Hygiene stands for.
+              </p>
             </Reveal>
           </div>
 

@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
+import Image from "next/image";
 import { ArrowDown, Clock, Fingerprint, ShieldCheck } from "lucide-react";
-import { gsap } from "./gsap";
 import {
   CHAPTERS,
   TOUCHES_TOTAL,
@@ -18,19 +18,26 @@ import {
 } from "./scene/timeline";
 import type { AnchorName, AnchorPoints, ShieldScene } from "./scene/createShieldScene";
 import Link from "next/link";
+import ExploreLink from "@/components/site/ExploreLink";
 import StoryStill from "./StoryStill";
 
 /*
   Design B's centrepiece: "The Invisible Shield".
-  - Default: the stage is pinned with GSAP ScrollTrigger; scroll progress drives the
-    Three.js scene and the chapter text directly (refs, no React re-render per frame).
+  - Default: a tall section with a sticky stage (CSS does the pinning, so the scroll length is in
+    the server HTML and nothing jumps when scripts arrive). GSAP ScrollTrigger scrubs progress
+    across the section and drives the Three.js scene and the chapter text directly (refs, no
+    React re-render per frame).
+  - Loading order, built for slow networks: the H1, lede, CTA and the opening poster are in the
+    first HTML; GSAP and the scene load on demand, the scene only once the page has loaded and the
+    browser is idle; on 2G or Save-Data the 3D never downloads and the poster stays.
   - Reduced motion: no pin; the chapters stack, each with a still rendered from the scene.
-  - No WebGL: the same stacked chapters, with the exported poster.
+  - No WebGL: the same stacked chapters, with the exported posters.
 */
 
-// still frames exported from the scene, for the no-WebGL fallback
+// frames exported from the scene (docs/specs, "Posters"): the opening and the "protect" moment
 const OPENING_POSTER = "/design-b/opening-poster.jpg";
 const SHIELD_POSTER = "/design-b/shield-poster.jpg";
+const posterFor = (id: ChapterId) => (id === "open" ? OPENING_POSTER : id === "protect" ? SHIELD_POSTER : undefined);
 
 // ── environment (useSyncExternalStore: SSR-safe, no setState in effects) ──
 function subscribeMedia(query: string) {
@@ -60,6 +67,43 @@ function hasWebGL() {
 const noop = () => () => {};
 
 const isWide = () => window.matchMedia("(min-width: 1024px)").matches;
+
+// ── network and device awareness ──
+type NetInfo = { saveData?: boolean; effectiveType?: string };
+const netInfo = (): NetInfo => (navigator as Navigator & { connection?: NetInfo }).connection ?? {};
+/** 2G or Save-Data: the poster tells the story and the 3D (about 150 KB compressed) never downloads */
+const skip3D = () => {
+  const n = netInfo();
+  return Boolean(n.saveData) || n.effectiveType === "slow-2g" || n.effectiveType === "2g";
+};
+/** fewer particles and no antialiasing on small CPUs, little memory or 3G */
+const lowPower = () => {
+  const nav = navigator as Navigator & { deviceMemory?: number };
+  return (nav.hardwareConcurrency ?? 8) <= 4 || (nav.deviceMemory ?? 8) <= 4 || netInfo().effectiveType === "3g";
+};
+/** run cb once the page has loaded and the browser is idle, so the 3D never competes with the poster, font or logo */
+function whenIdle(cb: () => void): () => void {
+  let cancelled = false;
+  let handle = 0;
+  let viaIdle = false;
+  const go = () => {
+    if (cancelled) return;
+    if (typeof window.requestIdleCallback === "function") {
+      viaIdle = true;
+      handle = window.requestIdleCallback(() => !cancelled && cb(), { timeout: 2500 });
+    } else {
+      handle = window.setTimeout(() => !cancelled && cb(), 300);
+    }
+  };
+  if (document.readyState === "complete") go();
+  else window.addEventListener("load", go, { once: true });
+  return () => {
+    cancelled = true;
+    window.removeEventListener("load", go);
+    if (viaIdle) window.cancelIdleCallback(handle);
+    else window.clearTimeout(handle);
+  };
+}
 
 // ── chapter copy ──
 type Final = boolean; // stacked mode shows the counters' end values
@@ -183,6 +227,9 @@ function chapterContent(i: number, final: Final): ReactNode {
           <p className="mx-auto mt-4 max-w-[26rem] text-xs text-white/55 lg:mx-0">
             Illustration. ProteGo complements routine cleaning. Protection lasts up to 30 days on treated surfaces under normal conditions.
           </p>
+          <ExploreLink href="/how-it-works" tone="bright" className="mt-6 self-center lg:self-start">
+            See how it works
+          </ExploreLink>
         </>
       );
   }
@@ -199,11 +246,20 @@ const STILL_ALT = [
 ];
 
 // labels pinned to points on the 3D panel, so a newcomer knows what they're looking at
-const CALLOUTS: { chapter: ChapterId; from: number; to: number; anchor: AnchorName; side: "left" | "right"; lead: number; text: string }[] =
-  [
+const CALLOUTS: {
+  chapter: ChapterId;
+  from: number;
+  to: number;
+  anchor: AnchorName;
+  /** phones frame the panel at the top, under the header, so a label can need a lower anchor there */
+  phoneAnchor?: AnchorName;
+  side: "left" | "right";
+  lead: number;
+  text: string;
+}[] = [
     { chapter: "ordinary", from: 0.5, to: 1, anchor: "up", side: "right", lead: 110, text: "Germs are back" },
     { chapter: "apply", from: 0.12, to: 0.9, anchor: "panelRight", side: "right", lead: 36, text: "Fine ULV mist" },
-    { chapter: "bond", from: 0.35, to: 1, anchor: "panelTop", side: "right", lead: 56, text: "Bonded protective layer" },
+    { chapter: "bond", from: 0.35, to: 1, anchor: "panelTop", phoneAnchor: "panelRight", side: "right", lead: 56, text: "Bonded protective layer" },
     { chapter: "protect", from: 0.06, to: 0.94, anchor: "down", side: "right", lead: 110, text: "Germs break apart on contact" },
   ];
 const CHAPTER_INDEX = Object.fromEntries(CHAPTERS.map((c, i) => [c.id, i])) as Record<ChapterId, number>;
@@ -220,12 +276,16 @@ const FIRST_STEP = CHAPTER_INDEX.ordinary;
 
 // ── pinned, scroll-driven story ──
 function PinnedStory() {
+  const sectionRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
+  const posterRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
+    const section = sectionRef.current;
     const stage = stageRef.current;
     const canvas = canvasRef.current;
-    if (!stage || !canvas) return;
+    const poster = posterRef.current;
+    if (!section || !stage || !canvas) return;
 
     let scene: ShieldScene | null = null;
     let disposed = false;
@@ -244,9 +304,10 @@ function PinnedStory() {
     // follow the anchors every rendered frame
     const onFrame = (anchors: AnchorPoints) => {
       const w = stage.clientWidth;
+      const wide = isWide();
       calloutEls.forEach((el, i) => {
         if (calloutVis[i] < 0.01) return;
-        const a = anchors[CALLOUTS[i].anchor];
+        const a = anchors[(!wide && CALLOUTS[i].phoneAnchor) || CALLOUTS[i].anchor];
         if (!a) return;
         el.style.transform = `translate(${a.x}px, ${a.y}px)`;
         // prefer the configured side, flip if it doesn't fit, and always keep the label on screen
@@ -297,22 +358,27 @@ function PinnedStory() {
       });
     };
 
-    const gctx = gsap.context(() => {
-      gsap.to(state, {
-        p: 1,
-        ease: "none",
-        onUpdate: () => apply(state.p),
-        scrollTrigger: {
-          trigger: stage,
-          start: "top top",
-          end: () => "+=" + window.innerHeight * (isWide() ? 6 : 5),
-          pin: true,
-          scrub: 0.6,
-          invalidateOnRefresh: true,
-        },
-      });
-    }, stage);
     apply(0);
+
+    // the sticky stage already holds its place, so GSAP can arrive whenever it arrives: it only
+    // maps the section's scroll range to progress, with a little scrub smoothing
+    let revertGsap: (() => void) | null = null;
+    import("./gsap")
+      .then(({ gsap }) => {
+        if (disposed) return;
+        const ctx = gsap.context(() => {
+          gsap.to(state, {
+            p: 1,
+            ease: "none",
+            onUpdate: () => apply(state.p),
+            scrollTrigger: { trigger: section, start: "top top", end: "bottom bottom", scrub: 0.6 },
+          });
+        }, section);
+        revertGsap = () => ctx.revert();
+      })
+      .catch(() => {
+        // the opening chapter and the poster still read as a hero
+      });
 
     const syncActive = () => scene?.setActive(onScreen && !document.hidden);
     const io = new IntersectionObserver(([e]) => {
@@ -334,22 +400,33 @@ function PinnedStory() {
       scene?.setPointer((e.clientX / window.innerWidth) * 2 - 1, (e.clientY / window.innerHeight) * 2 - 1);
     if (fine) window.addEventListener("pointermove", onPointer, { passive: true });
 
-    import("./scene/createShieldScene")
-      .then(({ createShieldScene }) => {
-        if (disposed) return;
-        scene = createShieldScene(canvas, { quality: fine && isWide() ? "high" : "low", layout: layout(), onFrame });
-        scene.setProgress(state.p);
-        requestAnimationFrame(onResize);
-        syncActive();
-        canvas.style.opacity = "1";
-      })
-      .catch(() => {
-        // the gradient and the chapter text still tell the story
-      });
+    const cancelIdle = skip3D()
+      ? null
+      : whenIdle(() => {
+          import("./scene/createShieldScene")
+            .then(({ createShieldScene }) => {
+              if (disposed) return;
+              scene = createShieldScene(canvas, {
+                quality: fine && isWide() && !lowPower() ? "high" : "low",
+                layout: layout(),
+                onFrame,
+              });
+              scene.setProgress(state.p);
+              requestAnimationFrame(onResize);
+              syncActive();
+              // the live scene fades in over the poster of its own first frame
+              canvas.style.opacity = "1";
+              if (poster) poster.style.opacity = "0";
+            })
+            .catch(() => {
+              // the poster and the chapter text still tell the story
+            });
+        });
 
     return () => {
       disposed = true;
-      gctx.revert();
+      cancelIdle?.();
+      revertGsap?.();
       io.disconnect();
       document.removeEventListener("visibilitychange", syncActive);
       window.removeEventListener("resize", onResize);
@@ -361,11 +438,22 @@ function PinnedStory() {
   }, []);
 
   return (
-    <section id="story" data-hero aria-labelledby="story-title" className="relative bg-black">
+    // 5 (phones) or 6 (desktop) extra viewports tall: the stage sticks for that distance
+    <section
+      ref={sectionRef}
+      id="story"
+      data-hero="immersive"
+      aria-labelledby="story-title"
+      className="relative h-[600svh] bg-black lg:h-[700svh]"
+    >
       <div
         ref={stageRef}
-        className="relative h-[100svh] overflow-hidden bg-[radial-gradient(ellipse_at_50%_50%,#061a1e_0%,#020809_40%,#000000_75%)] text-white"
+        className="sticky top-0 h-[100svh] overflow-hidden bg-[radial-gradient(ellipse_at_50%_50%,#061a1e_0%,#020809_40%,#000000_75%)] text-white"
       >
+        {/* the opening frame, in the first HTML: painted long before any script, and the whole hero on 2G */}
+        <div ref={posterRef} aria-hidden className="absolute inset-0 transition-opacity duration-700">
+          <Image src={OPENING_POSTER} alt="" fill sizes="100vw" loading="eager" fetchPriority="high" className="object-cover" />
+        </div>
         <canvas ref={canvasRef} aria-hidden className="absolute inset-0 size-full opacity-0 transition-opacity duration-700" />
         {/* keep text legible over the scene */}
         <div
@@ -403,7 +491,7 @@ function PinnedStory() {
           data-tracker
           aria-hidden
           style={{ opacity: 0 }}
-          className="pointer-events-none absolute inset-x-0 top-[calc(50%-2.5rem)] z-10 flex justify-center gap-1.5 lg:inset-x-auto lg:bottom-10 lg:left-[var(--gutter)] lg:top-auto lg:justify-start"
+          className="pointer-events-none absolute inset-x-0 bottom-[max(1.25rem,env(safe-area-inset-bottom))] z-10 flex justify-center gap-1.5 lg:inset-x-auto lg:bottom-10 lg:left-[var(--gutter)] lg:justify-start"
         >
           {STEPS.map((st, j) => (
             <li
@@ -426,7 +514,7 @@ function PinnedStory() {
                 data-chapter={i}
                 aria-hidden={i === 0 ? "false" : "true"}
                 style={{ opacity: i === 0 ? 1 : 0, pointerEvents: i === 0 ? "auto" : "none" }}
-                className="absolute inset-0 flex flex-col justify-start pt-4 text-center will-change-[opacity,transform] sm:pt-8 lg:justify-center lg:pt-0 lg:text-left"
+                className="absolute inset-0 flex flex-col justify-center pb-16 pt-2 text-center will-change-[opacity,transform] sm:pt-8 lg:justify-center lg:py-0 lg:text-left"
               >
                 {chapterContent(i, false)}
               </div>
@@ -461,13 +549,10 @@ function StackedStory({ webgl }: { webgl: boolean }) {
   }, [webgl]);
 
   return (
-    <section id="story" data-hero aria-labelledby="story-title" className="bg-sherpa-deep pt-20 text-white">
+    <section id="story" data-hero="immersive" aria-labelledby="story-title" className="bg-sherpa-deep pt-20 text-white">
       {CHAPTERS.map((c, i) => (
         <div key={c.id} className="wrap grid items-center gap-8 py-12 sm:py-16 lg:grid-cols-2 lg:gap-16">
-          <StoryStill
-            src={webgl ? stills[i] : c.id === "open" ? OPENING_POSTER : c.id === "protect" ? SHIELD_POSTER : undefined}
-            alt={STILL_ALT[i]}
-          />
+          <StoryStill src={(webgl && stills[i]) || posterFor(c.id)} alt={STILL_ALT[i]} />
           <div className="text-center lg:text-left">{chapterContent(i, true)}</div>
         </div>
       ))}

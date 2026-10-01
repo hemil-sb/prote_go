@@ -1,22 +1,24 @@
 import IndustryExplorer from "@/components/IndustryExplorer";
-import { Reveal, Words } from "@/components/Motion";
+import SectionIntro from "@/components/site/SectionIntro";
+import ExploreLink from "@/components/site/ExploreLink";
+import { Reveal } from "@/components/Motion";
 
 /* Industries: design A's interactive explorer (photos crossfading every 3 s, with high-touch hotspots). */
-export default function IndustriesB() {
+export default function Industries() {
   return (
-    <section id="industries" aria-labelledby="industries-b-title" className="plus-field bg-spring py-16 sm:py-24 lg:py-28" data-fade="bl">
+    <section id="industries" aria-labelledby="industries-title" className="plus-field bg-spring py-16 sm:py-24 lg:py-28" data-fade="bl">
       <div className="wrap">
-        <div className="grid gap-4 text-center lg:grid-cols-12 lg:items-end lg:text-left">
-          <div className="lg:col-span-7">
-            <p className="text-sm font-semibold text-orient">Industries</p>
-            <Words id="industries-b-title" text="Every surface. Every day." className="mt-3 text-headline font-normal text-sherpa-deep" />
-          </div>
-          <Reveal as="p" delay={0.2} className="mx-auto max-w-[28rem] text-lede text-ink/75 lg:col-span-5 lg:mx-0">
-            Pick your industry to see what we protect.
-          </Reveal>
-        </div>
+        <SectionIntro
+          id="industries-title"
+          eyebrow="Industries"
+          title="Every surface. Every day."
+          lede="Pick your industry to see what we protect."
+        />
         <Reveal amount={0.15} className="mt-10 sm:mt-14">
           <IndustryExplorer />
+        </Reveal>
+        <Reveal className="mt-12 flex justify-center lg:justify-start">
+          <ExploreLink href="/industries">Explore all 15 industries</ExploreLink>
         </Reveal>
       </div>
     </section>

@@ -23,10 +23,6 @@ export const industry: Industry = {
         body: "Weights, machine grips, lockers and basins are touched by member after member, often within minutes.",
       },
       {
-        title: "The gap between cleans",
-        body: "Once a surface dries after cleaning, the next touch can bring microbes straight back.",
-      },
-      {
         title: "Confidence is part of the service",
         body: "Clients judge a wellness space by how cared for it feels. Visible, consistent hygiene helps them return with confidence.",
       },
@@ -76,16 +72,8 @@ export const industry: Industry = {
   ],
   approach: [
     {
-      title: "Professional ULV application",
-      body: "For larger gyms, chains and spas, our trained team applies ProteGo Surface Protectant with ULV misting, planned around your opening hours. Surfaces need about 1 hour to dry.",
-    },
-    {
-      title: "An invisible bonded layer",
-      body: "Si-QAC technology forms a layer that bonds to hard, high-touch surfaces and disrupts microbes on contact, for up to 30 days under normal conditions.",
-    },
-    {
-      title: "Measured before and after",
-      body: "ATP testing records surface cleanliness before and after treatment, and every visit ends with a digital report.",
+      title: "Planned around your timetable",
+      body: "For larger gyms and spas, our trained team applies ProteGo around your opening hours. Treated surfaces need about 1 hour to dry.",
     },
     {
       title: "A DIY option for smaller studios",
@@ -95,15 +83,11 @@ export const industry: Industry = {
   benefits: [
     {
       who: "Owners and operators",
-      body: "A documented, monthly routine with reports you can show, and a ProteGo Protected Space™ certificate for your reception.",
+      body: "A documented routine with reports you can show, and a ProteGo Protected Space™ certificate for your reception.",
     },
     {
       who: "Members and clients",
       body: "Equipment and fittings that are protected between cleans, and a visible sign that hygiene is taken seriously.",
-    },
-    {
-      who: "Staff",
-      body: "Support for the cleaning they already do, with clear guidance on which surfaces are treated and when renewal is due.",
     },
     {
       who: "Chains and multi-site operators",
@@ -114,19 +98,11 @@ export const industry: Industry = {
   faqs: [
     {
       q: "Do we still need to wipe down equipment?",
-      a: "Yes. ProteGo complements, not replaces, routine cleaning. Keep your usual wipe-downs; the protective layer keeps working in between.",
+      a: "Yes. Keep your usual wipe-downs between sessions; the protective layer keeps working in between.",
     },
     {
       q: "Can it go on mats, upholstery or towels?",
       a: "ProteGo is for hard, non-food-contact, high-touch surfaces. During the site assessment we agree exactly which surfaces are suitable.",
-    },
-    {
-      q: "Will treatment interrupt our sessions?",
-      a: "Application is planned around your timetable. Treated areas need about 1 hour to dry before use.",
-    },
-    {
-      q: "What does the ATP test show?",
-      a: "ATP testing measures organic residue on a surface in Relative Light Units (RLU). It is a cleanliness reading, not a microbe count.",
     },
   ],
   contactSector: "Retail, multiplex or gym",

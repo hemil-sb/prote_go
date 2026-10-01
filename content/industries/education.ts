@@ -19,15 +19,11 @@ export const industry: Industry = {
     points: [
       {
         title: "High-touch surfaces are everywhere.",
-        body: "Desks, door handles, switches and railings are used by many hands, many times a day.",
+        body: "Not only desks and doors: lab benches, shared devices, lockers and bus handrails are used many times a day.",
       },
       {
         title: "Children share almost everything.",
         body: "Classrooms, labs, libraries and buses are some of the busiest shared spaces in any community.",
-      },
-      {
-        title: "Disinfectants stop when they dry.",
-        body: "Routine cleaning matters, but once a surface dries the next touch can bring germs straight back.",
       },
       {
         title: "Parents want to see the effort.",
@@ -63,18 +59,6 @@ export const industry: Industry = {
   ],
   approach: [
     {
-      title: "Consult and assess.",
-      body: "We learn your priorities, walk your campus, map the high-touch surfaces and take ATP readings to set a baseline.",
-    },
-    {
-      title: "Apply after hours.",
-      body: "Trained technicians apply ProteGo by ULV to clean, hard surfaces when the space is empty. It dries in about an hour.",
-    },
-    {
-      title: "Pilot and verify.",
-      body: "Start with an area of your choice. We re-test with ATP at 28 days and share a digital report before you decide to scale.",
-    },
-    {
       title: "Two ways to protect.",
       body: "A managed programme for whole campuses, or the DIY Protection Kit for smaller spaces and top-ups between visits.",
     },
@@ -92,10 +76,6 @@ export const industry: Industry = {
       who: "Parents",
       body: "A visible, measurable commitment to hygiene that the school can show and explain.",
     },
-    {
-      who: "Leadership and facility heads",
-      body: "A programme that complements housekeeping, with ATP data and digital reports for your records.",
-    },
   ],
   proof: {
     quote: "Remarkable and measurable improvements… sustained for a period exceeding one month.",
@@ -104,16 +84,8 @@ export const industry: Industry = {
   line: "Protecting learning. One surface at a time.",
   faqs: [
     {
-      q: "Does this replace our housekeeping?",
-      a: "No. ProteGo complements, not replaces, routine cleaning, hand hygiene and your school's protocols. It protects treated surfaces between cleans.",
-    },
-    {
       q: "When do you apply it?",
       a: "After cleaning, when the space is empty, such as evenings, weekends or holidays. Treated areas are ready to use once dry, in about an hour.",
-    },
-    {
-      q: "Can we try it before committing?",
-      a: "Yes. We can pilot ProteGo in a defined area, re-test with ATP at 28 days and review the results with you before any wider rollout.",
     },
   ],
   contactSector: "School or college",

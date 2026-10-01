@@ -13,13 +13,14 @@ import type { ObjectContext, SceneObject } from "../types";
 export function createFingerprints(ctx: ObjectContext): SceneObject {
   const group = new THREE.Group();
   const tex = fingerprintTexture();
-  const printGeo = new THREE.PlaneGeometry(0.36, 0.44);
+  const printGeo = new THREE.PlaneGeometry(0.42, 0.52);
   const ringGeo = new THREE.RingGeometry(0.2, 0.225, ctx.quality === "high" ? 48 : 28);
   const materials: THREE.Material[] = [];
 
   const place = (button: number, dx: number, dy: number, rot: number) => {
     const [x, y] = BUTTONS[button];
-    const mat = new THREE.MeshBasicMaterial({ map: tex, color: COLORS.spring, transparent: true, opacity: 0, depthWrite: false });
+    // the texture carries its own colours (dark smudge, light ridges), so no tint
+    const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, opacity: 0, depthWrite: false });
     materials.push(mat);
     const mesh = new THREE.Mesh(printGeo, mat);
     mesh.position.set(x + dx, y + dy, FACE_Z + 0.07);
@@ -28,10 +29,10 @@ export function createFingerprints(ctx: ObjectContext): SceneObject {
     return { mesh, mat, x: x + dx, y: y + dy };
   };
 
-  const lingering = ORDINARY_TOUCHES.map((t, i) => ({ t, ...place(t.button, t.dx, t.dy, (i % 2 ? 1 : -1) * 0.3) }));
+  const lingering = ORDINARY_TOUCHES.map((t, i) => ({ t, ...place(t.button, t.dx, t.dy, (((i * 53) % 7) / 7) * 1.2 - 0.6) }));
 
   const landings = PROTECT_TOUCHES.map((t, j) => {
-    const pr = place(t.button, t.dx, t.dy, (j % 3) * 0.25 - 0.25);
+    const pr = place(t.button, t.dx, t.dy, (((j * 29) % 9) / 9) * 1.2 - 0.6);
     const ringMat = new THREE.MeshBasicMaterial({
       color: COLORS.turquoise,
       transparent: true,
@@ -53,7 +54,7 @@ export function createFingerprints(ctx: ObjectContext): SceneObject {
       const o = local(p, "ordinary");
       const clear = 1 - smooth((local(p, "apply") - 0.15) / 0.5);
       lingering.forEach((l) => {
-        l.mat.opacity = 0.5 * smooth((o - l.t.at) / 0.06) * clear;
+        l.mat.opacity = 0.9 * smooth((o - l.t.at) / 0.06) * clear;
         l.mesh.visible = l.mat.opacity > 0.002;
       });
 
@@ -62,7 +63,7 @@ export function createFingerprints(ctx: ObjectContext): SceneObject {
       landings.forEach((l) => {
         const v = (pl - l.t.at) / (PRESS_LIFE * 1.2);
         const on = inProtect && v > 0 && v < 1;
-        l.mat.opacity = on ? 0.5 * (1 - smooth(v)) : 0;
+        l.mat.opacity = on ? 0.85 * (1 - smooth(v)) : 0;
         l.mesh.visible = on;
         l.ringMat.opacity = on ? 0.9 * (1 - v) : 0;
         l.ring.visible = on;

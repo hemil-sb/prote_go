@@ -82,7 +82,7 @@ The whole story is one **ScrollTrigger-pinned** section. Scroll progress `p ∈ 
 
 **Other elements**
 - **Germs:** soft translucent capsule shapes in Spring / `#BDDFE7`. Never red or green.
-- **Fingerprints:** faint oval ring sprites.
+- **Fingerprints:** a real print: a faint oily oval smudge with fine, broken ridge lines that catch the light (one runtime canvas texture, colours baked in).
 - **"+" tips:** a single `InstancedMesh` of cross shapes. About 2,500 instances on desktop, about 800 on phones.
 - **Glow:** emissive materials plus additive sprite halos. **No post-processing bloom pass.**
 
@@ -96,7 +96,7 @@ The whole story is one **ScrollTrigger-pinned** section. Scroll progress `p ∈ 
 ## 5. Phones, reduced motion and fallbacks
 
 **Phones** (`< lg`, or `pointer: coarse`)
-- The object is framed in the top ~55% of the viewport, with the chapter text in a card below.
+- The object is framed in the top ~45% of the viewport (camera view offset 15%, so the panel clears the header and sits close above the text), each chapter text is vertically centred in the lower half so short chapters do not leave the bottom empty, and the step tracker sits along the bottom edge (safe-area aware), as it does bottom-left on desktop. Callouts that anchor to the panel top on desktop use a lower anchor on phones (1 Oct 2026).
 - ⅓ of the "+" instances, no pointer tilt.
 - `devicePixelRatio` capped at 1.25 (desktop 1.5).
 - Shorter pinned scroll length.
@@ -112,13 +112,17 @@ The whole story is one **ScrollTrigger-pinned** section. Scroll progress `p ∈ 
 - Counters show their final values.
 
 **No WebGL**
-- A static poster image (`public/design-b/shield-poster.png`, the "Protect" moment) sits behind the same chapter text.
-- The poster is exported once from the scene during development.
+- The stacked chapters show the two exported posters: `public/design-b/opening-poster.jpg` (the opening) and `shield-poster.jpg` (the "Protect" moment).
+- Posters are exported from the live scene with `scripts/capture-posters.mjs` (see its header). Re-run it after any change to the scene's look.
 
-**Loading**
-- `three` and the scene module load via dynamic `import()` after first paint.
-- The H1, lede and CTA are server-rendered HTML and appear immediately.
-- The canvas fades in once the first frame is ready.
+**Loading (1 Oct 2026, built for slow networks)**
+- The section is a tall block (`600svh`, `700svh` from `lg`) with a `sticky` stage: CSS does the pinning, so the scroll length is in the server HTML and nothing shifts when scripts arrive. ScrollTrigger only maps the section's scroll range to progress (`pin: false`, `scrub: 0.6`).
+- First HTML: H1, lede, CTA and the opening poster (`next/image`, eager, `fetchPriority="high"`, preloaded). The poster is the hero until the scene renders, and the whole hero when the scene never loads.
+- GSAP and ScrollTrigger load on demand (`import("./gsap")`), not in the initial bundle.
+- `three` and the scene load only after the window `load` event and when the browser is idle (`requestIdleCallback`, 2.5 s timeout), so they never compete with the poster, font or logo.
+- On 2G, slow-2G or `Save-Data` the 3D is never downloaded. On 3G, 4 or fewer cores, or 4 GB or less memory, the scene runs at `low` quality.
+- The canvas fades in over the poster of its own first frame once the scene is ready.
+- Measured (production build, Chrome, CPU x4): slow 3G, HTML 2.7 s, LCP (H1) 2.9 s, poster 3.2 s, scene 14 s; fast 3G, LCP 1.2 s, poster 1.4 s, scene 6 s. Initial JS for `/` 242 KB gzipped (was 286 KB); the scene is a 146 KB gzipped chunk on top.
 
 **Accessibility**
 - The canvas is `aria-hidden`; the chapter text carries the full message.
@@ -212,7 +216,7 @@ website/
 The user reviewed the first build and found that the panel read as a random slab, that there was too much empty space, that the "+" opening looked crude, and that the navbar was weak. Changes made:
 
 **Real space instead of a void**
-- The story is set in a **lift lobby at night**: plastered teal wall, slatted panelling, brushed-steel lift doors with a floor indicator, a polished floor, and ceiling downlights washing the wall.
+- The story is set in a **lift lobby at night**: teal micro-cement cladding in 600 x 1200 mm panels with shadow-gap joints (procedural colour and normal maps from scene/noise.ts, 256 px on low quality, 512 px on high, about 20 ms to generate, nothing downloaded), slatted panelling, brushed-steel lift doors with a floor indicator, a steel crash rail at 85 cm (hidden in the phone layout so it never sits behind the chapter text), a polished floor, and ceiling downlights washing the wall. Tiles are laid so no joint crosses the call panel; a vertical joint either side of it gives the close shots their perspective lines. (1 Oct 2026)
 - **The opening is the lobby itself.** The brand "+" marks drift in the air as a faint shimmer, replacing the nano close-up (the "touch of Powers of ten" is kept as the motif).
 
 **Camera path:** lobby hero → closer wide shot ("Every surface gets touched.") → push in to a three-quarter view of the panel → bond / protect variations → ease back out for "Verify".
@@ -220,7 +224,7 @@ The user reviewed the first build and found that the panel read as a random slab
 **The panel:** brushed steel on a dark bezel, floor buttons 1–4 in Manrope, door buttons, and a "▲ 04" floor display. Buttons light up when touched.
 
 **Comprehension aids**
-- Germs are drawn as the site's illustrated microbe (sprites).
+- Germs are soft translucent gel microbes (capsule, coccus, two-cell cluster) on sprites, teal membrane, fine hairs, baked contact shadow, no outlines (1 Oct 2026; the earlier inked cartoon look was replaced).
 - Labels are anchored to the 3D panel ("Germs are back", "Fine ULV mist", "Bonded protective layer", "Germs break apart on contact").
 - A step tracker (Clean · Apply · Bond · Protect · Verify).
 - The bonded layer is a clipping-plane wipe of the brand "+" pattern (no stretched mesh, no hard edge line).
