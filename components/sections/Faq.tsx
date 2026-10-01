@@ -1,53 +1,33 @@
+import { FAQS } from "@/content/faqs";
 import { Item, Stagger, Words } from "@/components/Motion";
 
-const FAQS = [
-  {
-    q: "Why protect a surface that's just been cleaned?",
-    a: "Disinfectants stop working once they dry. The next touch can bring germs straight back. ProteGo keeps working in between.",
-  },
-  {
-    q: "Does it replace cleaning?",
-    a: "No. Clean as usual. ProteGo protects surfaces between cleans.",
-  },
-  {
-    q: "Is it safe?",
-    a: "About 98% water, non-leaching and non-flammable. Treated spaces are ready once dry, in about an hour.",
-  },
-  {
-    q: "How do I know it's working?",
-    a: "We ATP test surfaces before and after every application and share the readings.",
-  },
-];
-
-export default function Faq() {
+export default function FaqB() {
   return (
-    <section id="faq" aria-labelledby="faq-title" className="plus-field" data-fade="bl">
-      <div className="wrap py-14 sm:py-20 lg:py-28">
-        <div className="grid gap-8 lg:grid-cols-12 lg:gap-10">
-          <Words id="faq-title" text="FAQs" className="text-center text-headline font-normal text-sherpa-deep lg:col-span-4 lg:text-left" />
-          <Stagger gap={0.08} className="border-t border-ink/15 lg:col-span-8">
-            {FAQS.map((f) => (
-              <Item key={f.q} className="border-b border-ink/15">
-                <details className="faq group">
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-base font-semibold text-sherpa-deep sm:py-6 sm:text-lg transition-colors hover:text-orient [&::-webkit-details-marker]:hidden">
-                    {f.q}
-                    <svg
-                      viewBox="0 0 24 24"
-                      className="size-5 shrink-0 text-orient transition-[rotate] duration-300 group-open:rotate-45"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      aria-hidden
-                    >
+    <section id="faq" aria-labelledby="faq-b-title" className="plus-field bg-spring py-16 sm:py-24 lg:py-28" data-fade="bl">
+      <div className="wrap grid gap-8 lg:grid-cols-12 lg:gap-12">
+        <div className="text-center lg:col-span-4 lg:text-left">
+          <Words id="faq-b-title" text="FAQ" className="text-headline font-normal text-sherpa-deep" />
+        </div>
+        <Stagger gap={0.08} className="space-y-3 lg:col-span-8">
+          {FAQS.map((f) => (
+            <Item key={f.q} className="rounded-[1.5rem] bg-white px-6 ring-1 ring-spring-deep">
+              <details className="faq group">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-base font-semibold text-sherpa-deep transition-colors hover:text-orient sm:text-lg [&::-webkit-details-marker]:hidden">
+                  {f.q}
+                  <span
+                    aria-hidden
+                    className="grid size-8 shrink-0 place-items-center rounded-full bg-sherpa-deep text-turquoise transition-[rotate] duration-300 group-open:rotate-45"
+                  >
+                    <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2.4">
                       <path d="M12 5v14M5 12h14" />
                     </svg>
-                  </summary>
-                  <p className="max-w-[40rem] pb-7 text-ink/70">{f.a}</p>
-                </details>
-              </Item>
-            ))}
-          </Stagger>
-        </div>
+                  </span>
+                </summary>
+                <p className="max-w-[40rem] pb-6 text-ink/70">{f.a}</p>
+              </details>
+            </Item>
+          ))}
+        </Stagger>
       </div>
     </section>
   );

@@ -1,40 +1,8 @@
 import { Check, ClipboardCheck, GraduationCap, ShieldCheck } from "lucide-react";
+import { INCLUDED, PLANS } from "@/content/plans";
 import { Item, Reveal, Stagger, Words } from "@/components/Motion";
 import RailDots from "@/components/RailDots";
 import { AtpReadingMock, CertificateMock, DigitalReportMock, LifecycleDiagram } from "@/components/ServiceVisuals";
-
-// Inclusions of the Professional Protection Programme (Gyms, Retail, Pharma briefs)
-const INCLUDED = [
-  "Site assessment and surface mapping",
-  "Professional ULV application",
-  "ATP testing before and after",
-  "Digital hygiene report",
-  "Protected Space™ certification",
-  "Renewal every 30 days",
-];
-
-// Programme tiers as named in the Gyms and Retail briefs
-const PLANS = [
-  {
-    name: "Professional",
-    price: "From ₹2.75",
-    unit: "per sq ft a month + GST",
-    points: ["Everything in the managed programme", "From 1,500 sq ft", "Minimum 6 months"],
-  },
-  {
-    name: "12-Month",
-    price: "Preferential",
-    unit: "annual terms",
-    points: ["Everything in Professional", "Annual plan and trend reports", "Dedicated account manager"],
-    featured: true,
-  },
-  {
-    name: "Long-Term Partnership",
-    price: "Custom",
-    unit: "proposal",
-    points: ["Chains, campuses, developers", "One standard across every site", "Portfolio-wide reporting"],
-  },
-];
 
 const EXTRAS = [
   { icon: ClipboardCheck, label: "Hygiene audits" },
@@ -42,19 +10,20 @@ const EXTRAS = [
   { icon: ShieldCheck, label: "Compliance support" },
 ];
 
-export default function Services() {
+/* Services, laid out as in design A: a light section with one deep card for the managed programme. */
+export default function ServiceB() {
   return (
-    <section id="services" aria-labelledby="services-title" className="plus-field" data-fade="tl">
-      <div className="wrap py-14 sm:py-20 lg:py-28">
+    <section id="service" aria-labelledby="service-b-title" className="plus-field bg-spring" data-fade="tl">
+      <div className="wrap py-16 sm:py-24 lg:py-28">
         <div className="grid gap-6 text-center lg:grid-cols-12 lg:items-end lg:text-left">
-          <Words id="services-title" text="Services." className="text-headline font-normal text-sherpa-deep lg:col-span-6" />
+          <Words id="service-b-title" text="Services." className="text-headline font-normal text-sherpa-deep lg:col-span-6" />
           <Reveal as="p" delay={0.2} className="mx-auto max-w-[28rem] text-lede text-ink/75 lg:col-span-5 lg:col-start-8 lg:mx-0">
             Science-backed. Independently tested. Professionally delivered.
           </Reveal>
         </div>
 
         {/* 1. Core service */}
-        <Reveal className="on-dark mt-8 sm:mt-12 grid items-center gap-10 rounded-[2rem] bg-sherpa-deep p-6 text-white sm:p-12 lg:grid-cols-2">
+        <Reveal className="on-dark mt-8 grid items-center gap-10 rounded-[2rem] bg-sherpa-deep p-6 text-white sm:mt-12 sm:p-12 lg:grid-cols-2">
           <div>
             <p className="font-semibold text-turquoise">Managed Protection Programme</p>
             <h3 className="mt-3 text-headline font-normal">We apply it. We prove it. We renew it.</h3>
@@ -70,7 +39,7 @@ export default function Services() {
           <LifecycleDiagram />
         </Reveal>
 
-        {/* 2. What you see */}
+        {/* 2. What you see after every visit */}
         <Stagger id="service-proof" gap={0.12} className="rail mt-6 grid gap-6 lg:grid-cols-3">
           <Item
             as="figure"
@@ -94,7 +63,7 @@ export default function Services() {
           </Item>
           <Item
             as="figure"
-            className="m-0 flex flex-col items-center justify-between gap-6 rounded-[2rem] bg-panel px-5 py-7 sm:gap-8 sm:px-6 sm:py-10"
+            className="m-0 flex flex-col items-center justify-between gap-6 rounded-[2rem] bg-white px-5 py-7 sm:gap-8 sm:px-6 sm:py-10"
           >
             <DigitalReportMock />
             <figcaption className="text-center">
@@ -132,12 +101,12 @@ export default function Services() {
           <Reveal as="h3" className="text-center text-title font-semibold text-sherpa-deep lg:text-left">
             Choose your protection programme
           </Reveal>
-          <Stagger as="ul" id="plans" gap={0.12} className="rail mt-6 grid gap-6 sm:mt-8 lg:grid-cols-3">
+          <Stagger as="ul" id="plans-b" gap={0.12} className="rail mt-6 grid gap-6 sm:mt-8 lg:grid-cols-3">
             {PLANS.map((p) => (
               <Item
                 as="li"
                 key={p.name}
-                className={`flex flex-col rounded-[2rem] p-6 sm:p-8 transition-shadow duration-300 hover:shadow-[0_24px_48px_-24px_rgb(13_44_51/0.35)] ${p.featured ? "on-dark bg-sherpa text-white" : "border border-spring-deep bg-white"}`}
+                className={`flex flex-col rounded-[2rem] p-6 transition-shadow duration-300 hover:shadow-[0_24px_48px_-24px_rgb(13_44_51/0.35)] sm:p-8 ${p.featured ? "on-dark bg-sherpa text-white" : "border border-spring-deep bg-white"}`}
               >
                 <div className="flex items-start justify-between gap-3">
                   <p className={`text-title font-semibold ${p.featured ? "text-turquoise" : "text-orient"}`}>{p.name}</p>
@@ -164,14 +133,14 @@ export default function Services() {
               </Item>
             ))}
           </Stagger>
-          <RailDots railId="plans" labels={PLANS.map((p) => `${p.name} plan`)} />
+          <RailDots railId="plans-b" labels={PLANS.map((p) => `${p.name} plan`)} />
 
           <Reveal className="mt-6 flex flex-col items-center justify-between gap-5 rounded-[2rem] bg-turquoise-tint p-6 text-center sm:flex-row sm:p-8 sm:text-left">
             <div>
               <p className="text-title font-semibold text-sherpa-deep">Not sure yet? Start with a pilot.</p>
               <p className="mt-1 text-ink/70">One area. One application. See the ATP readings, then decide.</p>
             </div>
-            <a href="#contact" className="shrink-0 rounded-full bg-orient px-6 py-3.5 font-semibold text-white btn hover:bg-sherpa">
+            <a href="#contact" className="btn shrink-0 rounded-full bg-orient px-6 py-3.5 font-semibold text-white hover:bg-sherpa">
               Book a free assessment
             </a>
           </Reveal>

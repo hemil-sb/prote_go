@@ -17,6 +17,7 @@ import {
   type ChapterId,
 } from "./scene/timeline";
 import type { AnchorName, AnchorPoints, ShieldScene } from "./scene/createShieldScene";
+import Link from "next/link";
 import StoryStill from "./StoryStill";
 
 /*
@@ -78,9 +79,9 @@ function chapterContent(i: number, final: Final): ReactNode {
             Disinfectants stop working once they dry. ProteGo keeps surfaces protected for up to 30 days, touch after touch.
           </p>
           <div className="mt-7 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
-            <a href="#contact" className={`${btn} bg-turquoise text-sherpa-deep hover:bg-white`}>
+            <Link href="/contact" className={`${btn} bg-turquoise text-sherpa-deep hover:bg-white`}>
               Book a free assessment
-            </a>
+            </Link>
             {!final && (
               <span className="inline-flex items-center gap-2 text-sm font-semibold text-white/70">
                 <ArrowDown aria-hidden className="size-4 motion-safe:animate-bounce" />
@@ -360,7 +361,7 @@ function PinnedStory() {
   }, []);
 
   return (
-    <section id="story" aria-labelledby="story-title" className="relative bg-black">
+    <section id="story" data-hero aria-labelledby="story-title" className="relative bg-black">
       <div
         ref={stageRef}
         className="relative h-[100svh] overflow-hidden bg-[radial-gradient(ellipse_at_50%_50%,#061a1e_0%,#020809_40%,#000000_75%)] text-white"
@@ -460,7 +461,7 @@ function StackedStory({ webgl }: { webgl: boolean }) {
   }, [webgl]);
 
   return (
-    <section id="story" aria-labelledby="story-title" className="bg-sherpa-deep pt-20 text-white">
+    <section id="story" data-hero aria-labelledby="story-title" className="bg-sherpa-deep pt-20 text-white">
       {CHAPTERS.map((c, i) => (
         <div key={c.id} className="wrap grid items-center gap-8 py-12 sm:py-16 lg:grid-cols-2 lg:gap-16">
           <StoryStill

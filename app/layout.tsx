@@ -2,7 +2,9 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import CleanAnchors from "@/components/CleanAnchors";
-import DesignSwitcher from "@/components/DesignSwitcher";
+import { CartProvider } from "@/components/cart/CartProvider";
+import SiteHeader from "@/components/site/SiteHeader";
+import SiteFooter from "@/components/site/SiteFooter";
 
 // Manrope, the brand typeface, from the brand asset pack (variable weight 200–800)
 const manrope = localFont({
@@ -13,7 +15,11 @@ const manrope = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "ProteGo Hygiene | Surface protection that lasts up to 30 days",
+  metadataBase: new URL("https://protegohygiene.com"),
+  title: {
+    default: "ProteGo Hygiene | Surface protection that lasts up to 30 days",
+    template: "%s | ProteGo Hygiene",
+  },
   description:
     "Most disinfectants stop working once they dry. ProteGo Surface Protectant leaves an invisible antimicrobial layer that keeps protecting treated surfaces for up to 30 days, even as people touch them.",
   applicationName: "ProteGo Hygiene",
@@ -35,9 +41,20 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en-IN" data-scroll-behavior="smooth" className={`${manrope.variable} antialiased`}>
       <body className="min-h-dvh">
-        {children}
+        <CartProvider>
+          <a
+            href="#main"
+            className="sr-only z-[70] rounded-full bg-turquoise px-4 py-2 font-semibold text-sherpa-deep focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+          >
+            Skip to content
+          </a>
+          <SiteHeader />
+          <main id="main" className="bg-spring">
+            {children}
+          </main>
+          <SiteFooter />
+        </CartProvider>
         <CleanAnchors />
-        <DesignSwitcher />
       </body>
     </html>
   );

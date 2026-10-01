@@ -8,14 +8,6 @@ export const INCLUDED = [
   "Renewal every 30 days",
 ];
 
-// the brand's 30-day "Continuity Lifecycle"
-export const CYCLE = [
-  { label: "Assess", body: "Site assessment and surface mapping." },
-  { label: "Protect", body: "Professional ULV application." },
-  { label: "Verify", body: "ATP testing before and after." },
-  { label: "Report", body: "A digital hygiene report and a Protected Space™ certificate." },
-  { label: "Renew", body: "Reapplied every 30 days." },
-];
 
 export const PLANS: { name: string; price: string; unit: string; points: string[]; featured?: boolean }[] = [
   {
